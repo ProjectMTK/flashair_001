@@ -253,7 +253,13 @@
            [[val componentsSeparatedByString:@","] count] > 0){
             
             //ファイル
-            if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"32"] == YES) {
+            if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"32"] == YES &&
+                (
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".jpg"].location != NSNotFound ||
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".JPG"].location != NSNotFound ||
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".jpeg"].location != NSNotFound ||
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".JPEG"].location != NSNotFound
+                 )) {
                 
                 //存在チェック用
                 //リストのデータが既に存在しているものであれば、ループを次へ進める。
@@ -328,8 +334,10 @@
                 i++;
             }
             //ディレクトリ(100__TSB以外)
-            else if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"16"] == YES && [[[val componentsSeparatedByString:@","] objectAtIndex:1] isEqualToString:@"100__TSB"] == NO
-                     ) {
+            /*       else if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"16"] == YES && [[[val componentsSeparatedByString:@","] objectAtIndex:1] isEqualToString:@"100__TSB"] == NO
+                     ) {*/
+            else if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"16"] == YES
+                     ){
              //   [self getList:[NSString stringWithFormat:@"%@/%@", [[val componentsSeparatedByString:@","] objectAtIndex:0], [[val componentsSeparatedByString:@","] objectAtIndex:1]]];
                 
                 //Dirだったので、再度画像のリストを取得するために、別スレッドにmessageを投げる。
@@ -338,7 +346,7 @@
         }
     }
     if(_listChkFlg) _listChkFlg = NO;
-    
+    NSLog(@"uuuuuuuu");
     [arp release];
     [NSThread exit];
 }
