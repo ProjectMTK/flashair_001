@@ -298,12 +298,16 @@
     LOGLOG;
     
     NSAutoreleasePool* arp = [[NSAutoreleasePool alloc] init];
+    //NSLog(@"_listChkFlg=%@", (_listChkFlg)? @"yes": @"no");
     
+    NSInteger cnter = 0;
     //リストフラグがNOになるまで待機
-    while (_listChkFlg) {
+    while (_listChkFlg && (cnter > 100)) {
         NSLog(@"wait...%@", path);
         [NSThread sleepForTimeInterval:1.0f];
+        cnter++;
     }
+    cnter = 0;
     NSLog(@"go!!!");
     
     //リスト取得開始
@@ -331,7 +335,7 @@
     //global(デフォルト設定)
     NSMutableArray* ary = [[NSMutableArray alloc]init];
     [base_DataController selTBL:1 data:ary strWhere:@""];
-    
+    NSLog(@"dirStr = %@", dirStr);
     NSInteger i = [base_DataController selCnt:2
                                      strWhere:@""];
     //dirStrを改行で分割し、その分(ファイル)繰り返す
