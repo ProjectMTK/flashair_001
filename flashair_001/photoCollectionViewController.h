@@ -23,6 +23,7 @@
     
     UIBarButtonItem* _chkBtn;
     UIBarButtonItem* _unChkBtn;
+    UIBarButtonItem* _unChkBtn2;
     UIBarButtonItem* _acBtn;
     
     

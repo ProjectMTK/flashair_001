@@ -13,7 +13,8 @@
     NSInteger _targetNumber;
     
     UILabel* _numberLabel;
-    NSString* _nameStr;
+    UILabel* _nameLabel;
+ //   NSString* _nameStr;
     
     UITableView* _tableView;
     NSMutableArray* _memberData;

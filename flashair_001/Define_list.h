@@ -15,6 +15,9 @@
     #define BASE_URL @"http://project-mtk.com/dental_cv/"
 #endif
 
+#define SYS_URL @"http://dentalair.jp"
+//#define SYS_URL @"http://192.168.33.10/dentalair"
+
 #define myBOUNDARY @"MTKBOUNDARY"
 
 #define AD_NEND_API_KEY_01 @"a6eca9dd074372c898dd1df549301f277c53f2b9"

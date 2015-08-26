@@ -67,6 +67,7 @@
     scrollView.maximumZoomScale = 3.0f;
     scrollView.delegate = self;
     scrollView.clipsToBounds = NO;
+    scrollView.bounces = NO;
 
     scrollView.contentSize = CGSizeMake(IPAD_CONTENTS_WIDTH_LANDSCAPE, IPAD_SCREEN_HEIGHT_LANDSCAPE);
     scrollView.frame = CGRectMake(0, 0, IPAD_CONTENTS_WIDTH_LANDSCAPE, IPAD_SCREEN_HEIGHT_LANDSCAPE);
@@ -102,7 +103,10 @@
             UIImage* img = [[UIImage alloc] initWithContentsOfFile:fullPath];
             
             UIImage* image;
-            if ([[[photoData objectAtIndex:0] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES) {
+            if (
+                [[[photoData objectAtIndex:0] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES ||
+                [[[photoData objectAtIndex:0] objectForKey:@"face_tag"] isEqualToString:@"8"] == YES
+                ) {
                 NSLog(@"逆ばー%@", [[photoData objectAtIndex:0] objectForKey:@"face_tag"]);
                 image =  [UIImage imageWithCGImage:img.CGImage scale:img.scale orientation:UIImageOrientationDownMirrored];
             }else{

@@ -306,9 +306,24 @@
     
     switch (indexPath.section) {
         case 0:
-            
             if ([self.targetList count] > 0) {
-                cell.textLabel.text = @"";
+                NSInteger chkI = 0;
+                NSMutableArray* ary = [[NSMutableArray alloc]init];
+                for (NSString *key in self.targetList) {
+                    [ary removeAllObjects];
+                    [base_DataController selTBL:2
+                                           data:ary
+                                       strWhere:[NSString stringWithFormat:@"WHERE id = %@", key]];
+                    if (chkI > 0 && [cell.textLabel.text isEqualToString:[[ary objectAtIndex:0] objectForKey:@"date"]] == NO) {
+                        cell.textLabel.text = @"";
+                        break;
+                    }
+                    else{
+                        cell.textLabel.text = [[ary objectAtIndex:0] objectForKey:@"date"];
+                    }
+                    chkI++;
+                }
+                [ary release];
             }
             else if (self.target > 0) {
                 cell.textLabel.text = [[_photoData objectAtIndex:0] objectForKey:@"date"];
@@ -522,6 +537,7 @@
 }
 - (void)nameAction:(NSString*)name
 {
+    NSLog(@"name=%@", name);
     NSMutableDictionary* mDic =  [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"name", nil];
     if ([self.targetList count] > 0) {
         for (NSString *key in self.targetList) {

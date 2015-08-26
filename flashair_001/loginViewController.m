@@ -104,6 +104,19 @@
     
     self.navigationItem.leftBarButtonItem = leftBtn;
     [self.navigationItem.leftBarButtonItem setEnabled:YES];
+    [leftBtn release];
+    
+    if (self.firstSW) {
+        self.navigationItem.leftBarButtonItem = nil;
+        self.title = @"初回ログイン";
+    }
+    else{
+        NSMutableArray* ary = [[NSMutableArray alloc]init];
+        [base_DataController selTBL:5
+                               data:ary strWhere:@""];
+        self.title = [NSString stringWithFormat:@"%@ 様 ログイン情報", [[ary objectAtIndex:0] objectForKey:@"name"]];
+        [ary release];
+    }
     
     UIBarButtonItem* rightBtn = [[UIBarButtonItem alloc]init];
     rightBtn.title = [FontAwesomeStr getICONStr:@"fa-refresh"];
@@ -115,6 +128,7 @@
     
     self.navigationItem.rightBarButtonItem = rightBtn;
     [self.navigationItem.rightBarButtonItem setEnabled:YES];
+    [rightBtn release];
     
 }
 
@@ -137,7 +151,6 @@
 
 - (void)reloadTblData
 {
-    //   _blackView.hidden = YES;
     
     [base_DataController selTBL:10
                            data:_glbData
@@ -180,7 +193,7 @@
     getJson.delegate = self;
     getJson.delegateView = self.view;
     
-    NSString* url = [NSString stringWithFormat:@"http://project-mtk.com/dental/api/?m=getflashair&login=%@&pass=%@", _loginLabelView.text, _passLabelView.text];
+    NSString* url = [NSString stringWithFormat:@"%@/api/?m=getflashair&login=%@&pass=%@", SYS_URL, _loginLabelView.text, _passLabelView.text];
     
     [getJson startJson:url post:@""];
 }
@@ -189,17 +202,28 @@
 - (void)acGetSuccess:(NSDictionary*)jsonData
 {
     LOGLOG;
-    if ([[jsonData objectForKey:@"flashair"] count] > 0) {
-        //bookデータが存在する
+    if ([[jsonData objectForKey:@"ssid"] count] > 0) {
+        //データが存在する
+        NSDictionary* dic = [[NSDictionary alloc]initWithObjectsAndKeys:[jsonData objectForKey:@"data"], @"0", nil];
+        //一端削除
+        [base_DataController dropTbl:5];
+        [base_DataController sumIns:(NSMutableDictionary*)dic DB_no:5];
+        [dic release];
+        
         //一端削除
         [base_DataController dropTbl:11];
-        [base_DataController sumIns:[jsonData objectForKey:@"flashair"] DB_no:11];
+        [base_DataController sumIns:[jsonData objectForKey:@"ssid"] DB_no:11];
+        
+        if (self.firstSW) {
+            [self closeView];
+        }
+        
     }
     
     [self reloadTblData];
 }
 
-- (void)manageFalse:(NSInteger)num
+- (void)acGetFalse:(NSInteger)num
 {
     LOGLOG;
 }
@@ -367,7 +391,7 @@
                 
                 cell.contentView.frame = CGRectMake(cell.contentView.bounds.origin.x, cell.contentView.bounds.origin.y, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height);
                 
-                _loginLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
+                _loginLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, IPAD_CONTENTS_WIDTH_LANDSCAPE - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
                 
                 cell.textLabel.text = @"";
                 
@@ -386,7 +410,7 @@
                 
                 cell.contentView.frame = CGRectMake(cell.contentView.bounds.origin.x, cell.contentView.bounds.origin.y, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height);
                 
-                _passLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
+                _passLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, IPAD_CONTENTS_WIDTH_LANDSCAPE - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
                 
                 cell.textLabel.text = @"";
                 

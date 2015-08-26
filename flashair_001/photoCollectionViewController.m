@@ -20,6 +20,13 @@
 #import "slideMenuView.h"
 #import "UserDataCheck.h"
 
+#define SET_MODE_IMPORT 0
+#define SET_MODE_EXPORT 1
+#define SET_MODE_VIEWER 2
+#define SET_MODE_COMPARE 3
+#define SET_MODE_MAKE 4
+#define SET_MODE_SETTING 5
+
 @implementation photoCollectionSectionView
 
 - (void)dealloc
@@ -61,6 +68,7 @@ static NSString * const headerID = @"header";
     self.collectionView = nil;
     [_chkBtn release];
     [_unChkBtn release];
+    [_unChkBtn2 release];
     [_acBtn release];
     [_btnArea release];
     [_glbData release];
@@ -128,6 +136,15 @@ static NSString * const headerID = @"header";
     _unChkBtn.target = self;
     _unChkBtn.action = @selector(acAllUncheck);
     
+    //UNチェックボタン2
+    _unChkBtn2 = [[UIBarButtonItem alloc]init];
+    _unChkBtn2.title = [FontAwesomeStr getICONStr:@"fa-minus-square-o"];
+    [_unChkBtn2 setTitleTextAttributes:@{NSFontAttributeName:FA_ICON_FONT_P5,
+                                        NSForegroundColorAttributeName:UICOLOR_BLU_01
+                                        } forState:UIControlStateNormal];
+    _unChkBtn2.target = self;
+    _unChkBtn2.action = @selector(acAllUncheck);
+    
     //チェックしたデータを操作する
     _acBtn = [[UIBarButtonItem alloc]init];
     _acBtn.title = [FontAwesomeStr getICONStr:@"fa-cog"];
@@ -138,10 +155,9 @@ static NSString * const headerID = @"header";
     _acBtn.action = @selector(selectAction);
     
     
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _chkBtn, _unChkBtn, nil];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _chkBtn, nil];
     [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
     [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:2] setEnabled:NO];
 
     
     self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
@@ -239,31 +255,39 @@ static NSString * const headerID = @"header";
 - (void)viewWillAppear:(BOOL)animated
 {
     LOGLOG;
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:2] setEnabled:NO];
-    self.mode = 0;
-    /*
-    self.title = @"Import";
-    self.navigationItem.titleView.userInteractionEnabled = YES;
-    // すべてのジェスチャーにた対して処理を実行
-    for(UIGestureRecognizer *gesture in [self.navigationItem.titleView gestureRecognizers]) {
-        // UIGestureRecognizerのSubclassを判別
-        if([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
-            [self.navigationItem.titleView removeGestureRecognizer:gesture];
-        }
+    
+    if (self.mode == SET_MODE_SETTING) {
+        self.mode = SET_MODE_IMPORT;
     }
     
-    // セレクタを指定して、パンジェスチャーリコジナイザーを生成する
-    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(confOpenD)];
-    //singleタップ
-    gesture.numberOfTapsRequired = 1;
-    [self.navigationItem.titleView addGestureRecognizer:gesture];
-    [gesture release];
-    */
-    
-    [self modeChg:0];
+    if (self.mode == SET_MODE_IMPORT) {
+        self.title = @"Import";
+        self.navigationItem.titleView.userInteractionEnabled = YES;
+        // すべてのジェスチャーにた対して処理を実行
+        for(UIGestureRecognizer *gesture in [self.navigationItem.titleView gestureRecognizers]) {
+            // UIGestureRecognizerのSubclassを判別
+            if([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
+                [self.navigationItem.titleView removeGestureRecognizer:gesture];
+            }
+        }
+        
+        // セレクタを指定して、パンジェスチャーリコジナイザーを生成する
+        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(confOpenD)];
+        //singleタップ
+        gesture.numberOfTapsRequired = 1;
+        [self.navigationItem.titleView addGestureRecognizer:gesture];
+        [gesture release];
+        [self modeChg:0];
+    }
+    else {
+        self.navigationItem.titleView.userInteractionEnabled = NO;
+        
+    }
     [self reloadTblData];
+    
+    /*
+    [self modeChg:0];
+    [self reloadTblData];*/
 }
 - (void)popView {
     [self.navigationController popViewControllerAnimated:YES];
@@ -337,7 +361,7 @@ static NSString * const headerID = @"header";
     [labelText appendAttributedString:labelTextUnit1];
     [labelText appendAttributedString:labelTextUnit2];
     
-    if (targetMode == 0) {
+    if (targetMode == SET_MODE_IMPORT) {
         titleLabel.attributedText = labelText;
     }
     else {
@@ -354,12 +378,12 @@ static NSString * const headerID = @"header";
     float height = self.view.frame.size.height - (HEAD_HEIGHT_PLUS_HEIGHT);
     float btnAreaY = self.view.frame.size.height;
     
-    if (targetMode == 1) {
+    if (targetMode == SET_MODE_EXPORT) {
         height = self.view.frame.size.height - (HEAD_HEIGHT_PLUS_HEIGHT) - (HEAD_HEIGHT_PLUS_HEIGHT);
         btnAreaY = btnAreaY - (HEAD_HEIGHT_PLUS_HEIGHT);
     }
     
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.3
                      animations:^{
                          self.collectionView.frame = CGRectMake(0, (HEAD_HEIGHT_PLUS_HEIGHT), self.view.frame.size.width, height);
                          _btnArea.frame = CGRectMake(0, btnAreaY, self.view.frame.size.width, (HEAD_HEIGHT_PLUS_HEIGHT));
@@ -370,13 +394,13 @@ static NSString * const headerID = @"header";
                          self.mode = targetMode;
                          [self reloadTblData];
                          
-                         if (targetMode == 3) {
+                         if (targetMode == SET_MODE_COMPARE) {
                              compareViewController* compView = [[compareViewController alloc]init];
                              compView.title = @"Compare";
                              [self.navigationController pushViewController:compView animated:YES];
                              [compView release];
                          }
-                         else if (targetMode == 5) {
+                         else if (targetMode == SET_MODE_SETTING) {
                              [self goSettingView];
                          }
                      }];
@@ -406,12 +430,28 @@ static NSString * const headerID = @"header";
 - (void)reloadTblData
 {
     LOGLOG;
+  //  [_selectedData removeAllObjects];
     _photoData = [[NSMutableArray alloc]init];
     [base_DataController selTBL:2
                            data:_photoData
                        strWhere:@"WHERE stat = 1 AND get_flg = 1 ORDER BY id DESC"];
     
     //   [_tableView reloadData];
+    //選択が外れた時
+    if ([_selectedData count] <= 0){
+        _selectSW = NO;
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _chkBtn, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
+    }
+    else if ([_selectedData count] < [_photoData count]) {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn2, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    }
+    else {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    }
+    [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
     [self.collectionView reloadData];
 }
 
@@ -526,10 +566,10 @@ static NSString * const headerID = @"header";
                           forKey:[[_photoData objectAtIndex:row] objectForKey:@"id"]];
         
     }
-    
+    self.navigationItem.rightBarButtonItems = nil;
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn, nil];
     [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:NO];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:2] setEnabled:YES];
+    [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
     
 //    [self reloadTblData];
 }
@@ -543,9 +583,10 @@ static NSString * const headerID = @"header";
     //選択状態を解除するので、選択したデータも削除
     [_selectedData removeAllObjects];
     
+    self.navigationItem.rightBarButtonItems = nil;
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _chkBtn, nil];
     [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
     [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:2] setEnabled:NO];
     
     //    [self reloadTblData];
 }
@@ -734,7 +775,10 @@ static NSString * const headerID = @"header";
         UIImage* image = [[UIImage alloc] initWithContentsOfFile:fullPath];
         
         UIImage* img;
-        if ([[[_photoData objectAtIndex:_upCnt] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES) {
+        if (
+            [[[_photoData objectAtIndex:_upCnt] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES ||
+            [[[_photoData objectAtIndex:_upCnt] objectForKey:@"face_tag"] isEqualToString:@"8"] == YES
+            ) {
             img =  [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationDownMirrored];
         }else{
             img =  [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationUp];
@@ -823,7 +867,7 @@ static NSString * const headerID = @"header";
         NSMutableArray* ary = [[NSMutableArray alloc]init];
         [base_DataController selTBL:10 data:ary strWhere:@""];
         //getモード
-        if (self.mode == 0) {
+        if (self.mode == SET_MODE_IMPORT) {
             NSString* headerTitle;
             if ([base_DataController selCnt:11 strWhere:@""] <= 0) {
                 headerTitle = @"カメラWifiのSSIDが設定されていません。";
@@ -972,7 +1016,7 @@ static NSString * const headerID = @"header";
     cell.backgroundView = nil;
     
     cell.backgroundColor = [UIColor blackColor];
-    NSString* thumbPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/thumbnail/%@_%@", [[_photoData objectAtIndex:_upCnt] objectForKey:@"card_ssid"], [[_photoData objectAtIndex:indexPath.row] objectForKey:@"file_name"]]];
+    NSString* thumbPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/thumbnail/%@_%@", [[_photoData objectAtIndex:indexPath.row] objectForKey:@"card_ssid"], [[_photoData objectAtIndex:indexPath.row] objectForKey:@"file_name"]]];
     
     
     if ([common fileExistsAtPath:thumbPath]) {
@@ -980,7 +1024,10 @@ static NSString * const headerID = @"header";
         
         UIImage* img = [[UIImage alloc] initWithContentsOfFile:thumbPath];
         UIImage* image;
-        if ([[[_photoData objectAtIndex:indexPath.row] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES) {
+        if (
+            [[[_photoData objectAtIndex:indexPath.row] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES ||
+            [[[_photoData objectAtIndex:indexPath.row] objectForKey:@"face_tag"] isEqualToString:@"8"] == YES
+            ) {
          //   NSLog(@"row=%ld, 逆", (long)indexPath.row);
             image =  [UIImage imageWithCGImage:img.CGImage scale:img.scale orientation:UIImageOrientationDownMirrored];
         }else{
@@ -1055,14 +1102,14 @@ static NSString * const headerID = @"header";
     photoLabel.frame = CGRectMake(0, 0, 240, 180);
     photoLabel.textAlignment = NSTextAlignmentRight;
     photoLabel.textColor = [UIColor whiteColor];
-    photoLabel.numberOfLines = 3;
+    photoLabel.numberOfLines = 4;
     photoLabel.text = [NSString stringWithFormat:@"%@\n%@\n%@\n%@", [[_photoData objectAtIndex:indexPath.row] objectForKey:@"date"], [[_photoData objectAtIndex:indexPath.row] objectForKey:@"number"], [[_photoData objectAtIndex:indexPath.row] objectForKey:@"name"], face_tag];
     [cell.contentView addSubview:photoLabel];
     [photoLabel release];
     
     //未設定
     if (
-        self.mode == 1 &&
+        self.mode == SET_MODE_EXPORT &&
         (
          [[[_photoData objectAtIndex:indexPath.row] objectForKey:@"date"] length] <= 0 ||
          [[[_photoData objectAtIndex:indexPath.row] objectForKey:@"number"] length] <= 0 ||
@@ -1082,6 +1129,22 @@ static NSString * const headerID = @"header";
       //  [[exMark layer] setCornerRadius:15];
         [cell.contentView addSubview:exMark];
         [exMark release];
+    }
+    //送信済
+    else if (self.mode == SET_MODE_EXPORT && [[[_photoData objectAtIndex:indexPath.row] objectForKey:@"up_flg"] isEqualToString:@"1"] == YES){
+        UILabel* upMark = [[UILabel alloc]init];
+        upMark.frame = CGRectMake(0, 0, 30, 30);
+        upMark.backgroundColor = [UIColor blueColor];
+        upMark.text = @"済";
+        upMark.font = BASE_SYS_FONT_P1;
+        upMark.textColor = [UIColor blackColor];
+        upMark.backgroundColor = [UIColor greenColor];
+        upMark.textAlignment = NSTextAlignmentCenter;
+        //   exMark.layer.cornerRadius = 5;
+        //   exMark.clipsToBounds = true;
+        //  [[exMark layer] setCornerRadius:15];
+        [cell.contentView addSubview:upMark];
+        [upMark release];
     }
     
     UIButton* confBtn = [[UIButton alloc]init];
@@ -1131,6 +1194,16 @@ static NSString * const headerID = @"header";
     cell.selectedBackgroundView = selectedView;
     [selectedView release];
     
+    if ([[_selectedData allKeys] containsObject:[[_photoData objectAtIndex:indexPath.row] objectForKey:@"id"]] == YES) {
+        cell.selected = YES;
+        [_collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+
+    }
+    else{
+        cell.selected = NO;
+    }
+    
+    
     return cell;
 }
 -(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
@@ -1140,19 +1213,42 @@ static NSString * const headerID = @"header";
         // 存在する場合の処理
         //消す
         [_selectedData removeObjectForKey:[[_photoData objectAtIndex:indexPath.row] objectForKey:@"id"]];
+  //      UICollectionViewCell* cell = [self collectionView:_collectionView cellForItemAtIndexPath:indexPath];
+    //    cell.selected = NO;
+    //    NSLog(@"cell.selected");
     }
+    
+    self.navigationItem.rightBarButtonItems = nil;
+    //選択が外れた時
+    if ([_selectedData count] <= 0){
+        _selectSW = NO;
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _chkBtn, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
+    }
+    else if ([_selectedData count] < [_photoData count]) {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn2, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    }
+    else {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    }
+    [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
+//    NSLog(@"selected=%@", _selectedData);
+    /*
     if ([_selectedData count] <= 0) {
         _selectSW = NO;
         
         [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
         [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
         [[self.navigationItem.rightBarButtonItems objectAtIndex:2] setEnabled:NO];
-    }
+    }*/
     
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    LOGLOG;
+    NSLog(@"selectedData = %@", _selectedData);
     if ([[_selectedData allKeys] containsObject:[[_photoData objectAtIndex:indexPath.row] objectForKey:@"id"]] == NO) {
         // 存在しない場合の処理
         [_selectedData setObject:[NSString stringWithFormat:@"%ld", (long)indexPath.row] forKey:[[_photoData objectAtIndex:indexPath.row] objectForKey:@"id"]];
@@ -1160,9 +1256,29 @@ static NSString * const headerID = @"header";
         _selectSW = YES;
     }
     
+    self.navigationItem.rightBarButtonItems = nil;/*
+    if ([_selectedData count] < [_photoData count]) {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn2, nil];
+    }else{
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn, nil];
+    }
     [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
     [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
-    [[self.navigationItem.rightBarButtonItems objectAtIndex:2] setEnabled:YES];
+    */
+    if ([_selectedData count] <= 0){
+        _selectSW = NO;
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _chkBtn, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:NO];
+    }
+    else if ([_selectedData count] < [_photoData count]) {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn2, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    }
+    else {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:_acBtn, _unChkBtn, nil];
+        [[self.navigationItem.rightBarButtonItems objectAtIndex:0] setEnabled:YES];
+    }
+    [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
     
     /*
     if (_selectSW) {
@@ -1223,6 +1339,7 @@ static NSString * const headerID = @"header";
             break;
             //設定へ
         default:
+            self.title = @"setting";
             [self modeChg:5];
           //  [self goSettingView];
             break;

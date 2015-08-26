@@ -157,7 +157,10 @@
     NSMutableArray* ary = [[NSMutableArray alloc]init];
     [base_DataController selTBL:10 data:ary strWhere:@""];
     NSString* base_url = BASE_URL;
-    if ([ary count] > 0 && [[[ary objectAtIndex:0] objectForKey:@"app_serv"] length] > 0) {
+    if ([urlParameter hasPrefix:SYS_URL]) {
+        base_url = @"";
+    }
+    else if ([ary count] > 0 && [[[ary objectAtIndex:0] objectForKey:@"app_serv"] length] > 0) {
         base_url = [[ary objectAtIndex:0] objectForKey:@"app_serv"];
     }
     

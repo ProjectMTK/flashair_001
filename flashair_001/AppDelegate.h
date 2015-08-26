@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    BOOL _updChkFlg;
     BOOL _listChkFlg;  //list取得中
     BOOL _dlChkFlg;    //download中
 }

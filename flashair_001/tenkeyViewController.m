@@ -26,7 +26,7 @@
     [_numberLabel release];
     [_tableView release];
     [_memberData release];
-    [_nameStr release];
+    [_nameLabel release];
     [super dealloc];
 }
 
@@ -197,7 +197,7 @@
     _numberLabel.frame = CGRectMake(0, 0, width, bitHeight);
     [subView addSubview:_numberLabel];
     
-    _nameStr = [[NSString alloc]init];
+    _nameLabel = [[UILabel alloc]init];
     
     _memberData = [[NSMutableArray alloc]init];
     
@@ -261,14 +261,16 @@
     LOGLOG;
     [self dismissViewControllerAnimated:YES completion:^(void){
         [self.delegate numberAction:self.targetNumber];
-        if ([_nameStr length] > 0) {
-            [self.delegate nameAction:_nameStr];
+        if ([_nameLabel.text length] > 0) {
+            NSLog(@"_nameLabel=%@", _nameLabel.text);
+            [self.delegate nameAction:_nameLabel.text];
         }
     }];
 }
 
 - (void)reloadTblData
 {
+    LOGLOG;
     [_memberData removeAllObjects];
     [base_DataController selTBL:3
                            data:_memberData
@@ -355,13 +357,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_memberData count] >= indexPath.row) {
-        _nameStr = [[_memberData objectAtIndex:indexPath.row] objectForKey:@"name"];
+        _nameLabel.text = [[_memberData objectAtIndex:indexPath.row] objectForKey:@"name"];
         self.targetNumber = [[[_memberData objectAtIndex:indexPath.row] objectForKey:@"number"] integerValue];
         _numberLabel.text = [NSString stringWithFormat:MEMBER_NUMBER_NUM, (long)self.targetNumber];
         [self reloadTblData];
     }else{
-        _nameStr = @"";
+        _nameLabel.text = @"";
     }
+    
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

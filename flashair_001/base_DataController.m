@@ -60,6 +60,9 @@
         case 3:
             database = @"MEMBER_DATA";
             break;
+        case 5:
+            database = @"USER_DATA";
+            break;
         case 10:
             database = @"GLB_DATA";
             break;
@@ -109,7 +112,7 @@
     [db close];
     if( isSucceeded )
     {
-        NSLog(@"data=%@, targetData=%ld", data, (long)targetDB);
+     //   NSLog(@"data=%@, targetData=%ld", data, (long)targetDB);
         [self sumUpd:data DB_no:targetDB];
     }
 }

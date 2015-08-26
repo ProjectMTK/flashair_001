@@ -108,8 +108,9 @@
     [naviCon release];
     
     //glbデータをチェックしてなければ追加
-    if ([base_DataController selCnt:11 strWhere:@""] <= 0) {
+    if ([base_DataController selCnt:5 strWhere:@""] <= 0) {
         loginViewController* loginCon = [[loginViewController alloc]init];
+        loginCon.firstSW = YES;
         UINavigationController* navCon = [[UINavigationController alloc]initWithRootViewController:loginCon];
         [self.window.rootViewController presentViewController:navCon animated:YES completion:nil];
         [loginCon release];
@@ -117,18 +118,328 @@
         
     }
     
+    _updChkFlg = NO;
     _listChkFlg = NO;
-    _dlChkFlg = NO;
     
+    // Start updateCheck
+    [NSThread detachNewThreadSelector:@selector(roopAirAction) toTarget:self withObject:nil];
+    
+    /*
     // Start updateCheck
     [NSThread detachNewThreadSelector:@selector(newFileChk) toTarget:self withObject:nil];
-    // Start updateCheck
+    // Start download
     [NSThread detachNewThreadSelector:@selector(photoDownload) toTarget:self withObject:nil];
-    
+    */
  //   NSLog(@"[[NSBundle mainBundle]resourcePath]=%@", [[NSBundle mainBundle]resourcePath]);
     
     return YES;
 }
+
+- (void)roopAirAction
+{
+    NSInteger cnt = 0;
+    bool status = true;
+    
+    NSLog(@"loop start");
+    //基本ずーっと繰り返す
+    while (status) {
+        //      NSLog(@"loop start");
+        NSAutoreleasePool* arp = [[NSAutoreleasePool alloc] init];
+        
+        NSMutableArray* ary10 = [[NSMutableArray alloc]init];
+        [base_DataController selTBL:10
+                               data:ary10
+                           strWhere:@""];
+        
+        //flashairのSSIDに接続していない。
+        if (
+            ([base_DataController selCnt:11 strWhere:[NSString stringWithFormat:@"WHERE ssid_label = '%@'", [common getSSID]]] <= 0)
+            ){
+            //接続していない場合は処理を止めておく。
+            NSLog(@"loop stop");
+            [NSThread sleepForTimeInterval:10.0f];
+            NSLog(@"loop restart");
+        }
+        
+        //現在接続しているSSIDでget_flgが0のものがあれば取得する。
+        else if (
+            ([base_DataController selCnt:2 strWhere:[NSString stringWithFormat:@"WHERE card_ssid = '%@' AND get_flg = 0", [common getSSID]]] > 0)
+                 ){
+            NSLog(@"photo download");
+            
+            NSString* baseUrl = @"http://flashair%@/%@";
+            NSString* fullPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/collection/%@_%%@", [common getSSID]]];
+            NSString* thumbPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/thumbnail/%@_%%@", [common getSSID]]];
+            
+            float resizeW = [[[ary10 objectAtIndex:0] objectForKey:@"resize_w"] floatValue];
+            
+            NSMutableArray* pData = [[NSMutableArray alloc]init];
+            [base_DataController selTBL:2 data:pData strWhere:@"WHERE get_flg = 0"];
+       //     NSInteger i = 0;
+            if ([pData count] > 0) {
+                NSInteger limit = 10;
+                if (limit > [pData count]) {
+                    limit = [pData count];
+                }
+                for (NSInteger i = 0; i < limit; i++) {
+                    
+                if ([common fileExistsAtPath:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]]] == YES) {
+                    
+                    NSLog(@"[1]データがあるので更新");
+                    //既にDownload済で、get_flgが0のものはget_flgを1に変更する
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                    [dic setObject:@"1" forKey:@"get_flg"];
+                    [base_DataController simpleUpd:2
+                                          upColumn:dic
+                                          strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
+                    [dic release];
+                }
+                //画像が存在していない=ダウンロード開始
+                else{
+                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:baseUrl, [[pData objectAtIndex:i] objectForKey:@"dir"], [[pData objectAtIndex:i] objectForKey:@"file_name"]]];
+                    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+                    // リクエストを送信する。
+                    NSError *error;
+                    NSURLResponse *response;
+                    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                    
+                    UIImage* aImaged = [[UIImage alloc] initWithData:data];
+                    // 取得した画像の縦サイズ、横サイズを取得する
+                    float imageW = aImaged.size.width;
+                    float imageH = aImaged.size.height;
+                    
+                    // リサイズする倍率を作成する。
+                    float scale = (resizeW / imageW);
+                    float scaleT = (BASIC_RESIZE_THUMB_W / imageW);
+                    
+                    //collectionに保存
+                    CGSize resizedSize = CGSizeMake(imageW * scale, imageH * scale);
+                    UIGraphicsBeginImageContext(resizedSize);
+                    
+                    [aImaged drawInRect:CGRectMake(0, 0, resizedSize.width, resizedSize.height)];
+                    
+                    UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+                    
+                    UIGraphicsEndImageContext();
+                    
+                    NSData* nsData = UIImageJPEGRepresentation(resizedImage, 0.8f);
+                    
+                    [nsData writeToFile:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]] atomically:YES];
+                    
+                    //thumbnailに保存
+                    CGSize resizedTSize = CGSizeMake(imageW * scaleT, imageH * scaleT);
+                    UIGraphicsBeginImageContext(resizedTSize);
+
+                    //ここまで
+                    [aImaged drawInRect:CGRectMake(0, 0, resizedTSize.width, resizedTSize.height)];
+                    UIImage* resizedTImage = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+                    
+                    NSData* nsTData = UIImageJPEGRepresentation(resizedTImage, 0.8f);
+                    
+                    [nsTData writeToFile:[NSString stringWithFormat:thumbPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]] atomically:YES];
+                    
+                    [aImaged release];
+                    [request release];
+                    
+                    //Download済なのでget_flgを1に変更する
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                    [dic setObject:@"1" forKey:@"get_flg"];
+                    [base_DataController simpleUpd:2
+                                          upColumn:dic
+                                          strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
+                    [dic release];
+                    [self performSelectorOnMainThread:@selector(tableReload) withObject:nil waitUntilDone:YES];
+                }
+                }
+            }
+            [pData release];
+            
+        }
+        
+        //_listChkFlgがYESであれば、チェック処理を走らせる
+        else if (_updChkFlg == YES) {
+            [NSThread detachNewThreadSelector:@selector(getAirList:) toTarget:self withObject:[[ary10 objectAtIndex:0] objectForKey:@"sdcard_dir"]];
+            _updChkFlg = NO;
+            cnt = 0;
+        }
+        
+        //更新チェックを行う
+        else if (_updChkFlg == NO && cnt < 100) {
+            NSError *error = nil;
+            NSURL *url102 = [NSURL URLWithString:@"http://flashair/command.cgi?op=102"];
+            // Run cgi
+            NSString* sts =[NSString stringWithContentsOfURL:url102 encoding:NSUTF8StringEncoding error:&error];
+       //     NSLog(@"sts=%@", sts);
+            if ([error.domain isEqualToString:NSCocoaErrorDomain]){
+                NSLog(@"error102 %@\n",error);
+            }
+            
+            else if([sts intValue] == 1){
+                _updChkFlg = YES;
+            }
+        }
+        
+        else {
+            NSLog(@"cnt = %ld", (long)cnt);
+            cnt++;
+            if (cnt > 100) {
+                _updChkFlg = YES;
+            }
+        }
+        [ary10 release];
+        [arp release];
+        [NSThread sleepForTimeInterval:0.1f];
+    }
+}
+
+- (void)getAirList:(NSString*)path
+{
+    LOGLOG;
+    
+    NSAutoreleasePool* arp = [[NSAutoreleasePool alloc] init];
+    
+    //リストフラグがNOになるまで待機
+    while (_listChkFlg) {
+        NSLog(@"wait...%@", path);
+        [NSThread sleepForTimeInterval:1.0f];
+    }
+    NSLog(@"go!!!");
+    
+    //リスト取得開始
+    _listChkFlg = YES;
+    
+    //error準備
+    NSError *error = nil;
+    
+    // Get file list
+    // URLを生成(パスを追記)
+    NSURL *url100 = [NSURL URLWithString:[@"http://flashair/command.cgi?op=100&DIR=" stringByAppendingString: path]];
+    //   NSLog(@"これが通っていたら");
+    // CGIにアクセス
+    NSString *dirStr =[NSString stringWithContentsOfURL:url100 encoding:NSUTF8StringEncoding error:&error];
+    //エラーの場合は終了
+    if ([error.domain isEqualToString:NSCocoaErrorDomain]){
+        NSLog(@"error100 %@\n",error);
+        [arp release];
+        [NSThread exit];
+    }
+    NSLog(@"path = %@, list data = %@", path, dirStr);
+    
+    NSString* thumbPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/thumbnail/%@_%@"];
+    
+    //global(デフォルト設定)
+    NSMutableArray* ary = [[NSMutableArray alloc]init];
+    [base_DataController selTBL:1 data:ary strWhere:@""];
+    
+    NSInteger i = [base_DataController selCnt:2
+                                     strWhere:@""];
+    //dirStrを改行で分割し、その分(ファイル)繰り返す
+    for (NSString* val in [dirStr componentsSeparatedByString:@"\n"]) {
+        if([val rangeOfString:@","].location != NSNotFound &&
+           [[val componentsSeparatedByString:@","] count] > 0){
+            
+            //ファイル
+            if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"32"] == YES &&
+                (
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".jpg"].location != NSNotFound ||
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".JPG"].location != NSNotFound ||
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".jpeg"].location != NSNotFound ||
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".JPEG"].location != NSNotFound
+                 )) {
+                    
+                    //存在チェック用
+                    //リストのデータが既に存在しているものであれば、ループを次へ進める。
+                    if (
+                        [base_DataController selCnt:2
+                                           strWhere:[NSString stringWithFormat:@"WHERE file_name = '%@' AND card_ssid = '%@'", [[val componentsSeparatedByString:@","] objectAtIndex:1], [common getSSID]]] > 0) {
+                            continue;
+                        }else{
+                            //     NSLog(@"なし:%@", [[val componentsSeparatedByString:@","] objectAtIndex:1]);
+                        }
+                    
+                    
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                    [dic setObject:[NSString stringWithFormat:@"%ld",(long)(i + 1)] forKey:@"id"];
+                    [dic setObject:@"1" forKey:@"stat"];
+                    
+                    [dic setObject:[[val componentsSeparatedByString:@","] objectAtIndex:1] forKey:@"file_name"];
+                    [dic setObject:[[val componentsSeparatedByString:@","] objectAtIndex:0] forKey:@"dir"];
+                    //接続中のcard_ssidを入れる。
+                    [dic setObject:[common getSSID] forKey:@"card_ssid"];
+                    [dic setObject:@"" forKey:@"cre_date"];
+                    [dic setObject:@"" forKey:@"up_date"];
+                    
+                    //Download済はget_flgは1
+                    if ([common fileExistsAtPath:[NSString stringWithFormat:thumbPath, [common getSSID], [[val componentsSeparatedByString:@","] objectAtIndex:1]]] == YES) {
+                        [dic setObject:@"1" forKey:@"get_flg"];
+                    }
+                    else{
+                        [dic setObject:@"0" forKey:@"get_flg"];
+                    }
+                    //fadeinflg
+                    [dic setObject:@"0" forKey:@"fadein_flg"];
+                    
+                    //uploadflg
+                    [dic setObject:@"0" forKey:@"up_flg"];
+                    
+                    if ([ary count] > 0) {
+                        [dic setObject:[[ary objectAtIndex:0] objectForKey:@"date"] forKey:@"date"];
+                        [dic setObject:[[ary objectAtIndex:0] objectForKey:@"number"] forKey:@"number"];
+                        [dic setObject:[[ary objectAtIndex:0] objectForKey:@"name"] forKey:@"name"];
+                        [dic setObject:[[ary objectAtIndex:0] objectForKey:@"face_tag"] forKey:@"face_tag"];
+                    }
+                    else{
+                        NSString* date_converted;
+                        NSDate* date_source = [NSDate date];
+                        // NSDateFormatter を用意します。
+                        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+                        // 変換用の書式を設定します。
+                        [formatter setDateFormat:@"YYYY-MM-dd"];
+                        // NSDate を NSString に変換します。
+                        date_converted = [formatter stringFromDate:date_source];
+                        // 使い終わった NSDateFormatter を解放します。
+                        [formatter release];
+                        
+                        [dic setObject:date_converted forKey:@"date"];
+                        [dic setObject:@"" forKey:@"number"];
+                        [dic setObject:@"" forKey:@"name"];
+                        [dic setObject:@"" forKey:@"face_tag"];
+                    }
+                    
+                    NSMutableDictionary* insDic = [[NSMutableDictionary alloc]init];
+                    
+                    //    [insDic setObject:dic forKey:[NSString stringWithFormat:@"%ld",(long)i]];
+                    [insDic setObject:dic forKey:@"0"];
+                    [dic release];
+                    
+                    if ([insDic count] > 0) {
+                        [base_DataController sumIns:insDic DB_no:2];
+                    }
+                    [insDic release];
+                    
+                    i++;
+                }
+            else if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"16"] == YES
+                     ){
+                //Dirだったので、再度画像のリストを取得するために、別スレッドにmessageを投げる。
+                [NSThread detachNewThreadSelector:@selector(getAirList:) toTarget:self withObject:[NSString stringWithFormat:@"%@/%@", [[val componentsSeparatedByString:@","] objectAtIndex:0], [[val componentsSeparatedByString:@","] objectAtIndex:1]]];
+            }
+            
+            else {
+                NSLog(@"...");
+            }
+        }
+    }
+    
+   // [self performSelectorOnMainThread:@selector(tableReload) withObject:nil waitUntilDone:YES];
+    //リスト終了
+    _listChkFlg = NO;
+    [arp release];
+    [NSThread exit];
+}
+
+
 
 - (void)newFileChk
 {
@@ -176,10 +487,10 @@
                     //画像のリストを取得するために、別スレッドにmessageを投げる。
                     [NSThread detachNewThreadSelector:@selector(getList:) toTarget:self withObject:path];
                     [NSThread sleepForTimeInterval:0.1f];
-                    //ここでこのスレッドは終了するので、whileを抜ける
-               //     break;
+
                 }
-                else if (([sts intValue] == 0 && [base_DataController selCnt:2 strWhere:@""] <= 0 && _listChkFlg == NO) || cnt >= 10){
+                //updateは確認できなかったが、画像が0で10回以上処理が繰り返されてる場合は、一度チェックしてみる。
+                else if (([sts intValue] == 0 && [base_DataController selCnt:2 strWhere:@""] <= 0 && _listChkFlg == NO) || cnt >= 100){
                     cnt = 0;
                     if ([ary count] > 0) {
                         path = [[ary objectAtIndex:0] objectForKey:@"sdcard_dir"];
@@ -209,7 +520,7 @@
 
 - (void)getList:(NSString*)path
 {
-//    LOGLOG;
+    LOGLOG;
     
     NSAutoreleasePool* arp = [[NSAutoreleasePool alloc] init];
     
@@ -238,6 +549,7 @@
         [arp release];
         [NSThread exit];
     }
+    NSLog(@"path = %@, list data = %@", path, dirStr);
     
     NSString* thumbPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/thumbnail/%@_%@"];
     
@@ -339,7 +651,7 @@
             else if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"16"] == YES
                      ){
              //   [self getList:[NSString stringWithFormat:@"%@/%@", [[val componentsSeparatedByString:@","] objectAtIndex:0], [[val componentsSeparatedByString:@","] objectAtIndex:1]]];
-                
+                _listChkFlg = NO;
                 //Dirだったので、再度画像のリストを取得するために、別スレッドにmessageを投げる。
                 [NSThread detachNewThreadSelector:@selector(getList:) toTarget:self withObject:[NSString stringWithFormat:@"%@/%@", [[val componentsSeparatedByString:@","] objectAtIndex:0], [[val componentsSeparatedByString:@","] objectAtIndex:1]]];
             }
@@ -368,7 +680,7 @@
         if (([base_DataController selCnt:11 strWhere:[NSString stringWithFormat:@"WHERE ssid_label = '%@'", [common getSSID]]] > 0) &&
             (_dlChkFlg == NO)
             ){
-      //      NSLog(@"ssid chk");
+        //    NSLog(@"ssid chk");
             
             _dlChkFlg = YES;
             
@@ -482,6 +794,7 @@
             [pData release];
        //     NSLog(@"[3]終了");
         }else {
+            //   NSLog(@"[3]終了");
                [NSThread sleepForTimeInterval:0.1f];
             
         }

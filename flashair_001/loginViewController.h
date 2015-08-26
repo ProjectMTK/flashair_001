@@ -20,8 +20,9 @@
     
     UILabel* _loginLabelPlaceHolder;
     UILabel* _passLabelPlaceHolder;
-    
 }
+@property (assign) BOOL firstSW;
+
 - (void)closeView;
 - (void)login;
 @end

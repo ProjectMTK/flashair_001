@@ -378,7 +378,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     cell.accessoryType = UITableViewCellAccessoryNone;
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == SET_SEC_MNT)) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else{
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -408,7 +408,7 @@
             
             cell.contentView.frame = CGRectMake(cell.contentView.bounds.origin.x, cell.contentView.bounds.origin.y, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height);
             
-            _sddirLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
+            _sddirLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, IPAD_CONTENTS_WIDTH_LANDSCAPE - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
             
             cell.textLabel.text = @"";
             
@@ -426,7 +426,7 @@
                 
                 cell.contentView.frame = CGRectMake(cell.contentView.bounds.origin.x, cell.contentView.bounds.origin.y, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height);
                 
-                _appLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
+                _appLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, IPAD_CONTENTS_WIDTH_LANDSCAPE - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
                 
                 cell.textLabel.text = @"";
                 cell.imageView.image = [common imageWithFAText:[FontAwesomeStr getICONStr:@"fa-cloud"]
@@ -468,8 +468,8 @@
                 _mntLabelPlaceHolder.frame = CGRectMake(0, 0, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
                 
                 cell.contentView.frame = CGRectMake(cell.contentView.bounds.origin.x, cell.contentView.bounds.origin.y, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height);
-                
-                _mntLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
+                NSLog(@"cell.contentView.bounds.size.width=%f", cell.contentView.bounds.size.width);
+                _mntLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, IPAD_CONTENTS_WIDTH_LANDSCAPE - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
                 
                 cell.textLabel.text = @"";
                 
@@ -484,7 +484,7 @@
                 
                 cell.contentView.frame = CGRectMake(cell.contentView.bounds.origin.x, cell.contentView.bounds.origin.y, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height);
                 
-                _mntuLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
+                _mntuLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, IPAD_CONTENTS_WIDTH_LANDSCAPE - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
                 
                 cell.textLabel.text = @"";
                 
@@ -499,7 +499,7 @@
                 
                 cell.contentView.frame = CGRectMake(cell.contentView.bounds.origin.x, cell.contentView.bounds.origin.y, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height);
                 
-                _mntpLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, cell.contentView.bounds.size.width - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
+                _mntpLabelView.frame = CGRectMake((BOOK_CELL_PAD * 2) + BASE_BTN_HEIGHT, BOOK_CELL_PAD, IPAD_CONTENTS_WIDTH_LANDSCAPE - (BOOK_CELL_PAD * 2) - BASE_BTN_HEIGHT, cell.contentView.bounds.size.height - (BOOK_CELL_PAD * 2));
                 
                 cell.textLabel.text = @"";
                 
@@ -585,7 +585,16 @@
             break;
             
         case SET_SEC_LOGIN:
-            cell.textLabel.text = @"";
+        {
+            NSMutableArray* ary = [[NSMutableArray alloc]init];
+            [base_DataController selTBL:5
+                                   data:ary strWhere:@""];
+            if ([ary count] > 0) {
+                cell.textLabel.text = [NSString stringWithFormat:@"%@ [%@]", [[ary objectAtIndex:0] objectForKey:@"name"], [[ary objectAtIndex:0] objectForKey:@"cnt"]];
+            }else{
+                cell.textLabel.text = @"";
+            }
+        }
             break;
             
         default:
@@ -606,6 +615,11 @@
     if(indexPath.section == SET_SEC_RESIZE){
         _pickerBtn.hidden = NO;
         _pickerView.hidden = NO;
+    }
+    //MNT
+    else if (indexPath.section == SET_SEC_MNT && indexPath.row == 0){
+   /*     _mntLabelView.userInteractionEnabled = YES;
+        [_mntLabelView becomeFirstResponder];*/
     }
     //MNT
     else if (indexPath.section == SET_SEC_MNT && indexPath.row == 3){
@@ -848,6 +862,7 @@
         }];
         return NO;
     }
+    /*
     // 結果が文字数をオーバーしていないならYES，オーバーしている場合はNO
     else if(
             [alrText length] <= ACCOUNT_NAME_MAX_LENGTH
@@ -855,9 +870,10 @@
         //       _nameLabelCntLabel.text = [NSString stringWithFormat:@"%ld / %d", (unsigned long)[alrText length], ACCOUNT_NAME_MAX_LENGTH];
         
         return YES;
-    }
+    }*/
     else{
-        return NO;
+        NSLog(@"alrText=%@", alrText);
+        return YES;
     }
     return YES;
 }
@@ -1045,7 +1061,9 @@ numberOfRowsInComponent:(NSInteger)component
             NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             if ([str isEqualToString:@"success"] == YES) {
                 alert.message = @"成功しました。";
-            }else{
+            }else if ([str isEqualToString:@"already"] == YES) {
+                alert.message = @"マウント済です。";
+            }else {
                 alert.message = @"失敗しました。";
             }
         }
