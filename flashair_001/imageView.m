@@ -115,6 +115,19 @@
             
             _imageView = [[UIImageView alloc]initWithImage:image];
             _imageView.frame = CGRectMake(0, 0, IPAD_CONTENTS_WIDTH_LANDSCAPE, IPAD_CONTENTS_HEIGHT_LANDSCAPE);
+            
+            if (image.size.height < image.size.width) {
+                _imageView.frame = CGRectMake(0, 0, IPAD_CONTENTS_WIDTH_LANDSCAPE, IPAD_CONTENTS_HEIGHT_LANDSCAPE);
+            }
+            else{
+                float sh = IPAD_CONTENTS_HEIGHT_LANDSCAPE / image.size.height;
+                float rw = sh * image.size.width;
+                float rx = (IPAD_CONTENTS_WIDTH_LANDSCAPE - rw) / 2;
+            //    NSLog(@"resize sh = %f, rw = %f, rx = %f", sh, rw, rx);
+                _imageView.frame = CGRectMake(rx, 0, rw, IPAD_CONTENTS_HEIGHT_LANDSCAPE);
+            }
+            
+            
             [scrollView addSubview:_imageView];
             [img release];
             

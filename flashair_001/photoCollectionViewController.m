@@ -20,13 +20,6 @@
 #import "slideMenuView.h"
 #import "UserDataCheck.h"
 
-#define SET_MODE_IMPORT 0
-#define SET_MODE_EXPORT 1
-#define SET_MODE_VIEWER 2
-#define SET_MODE_COMPARE 3
-#define SET_MODE_MAKE 4
-#define SET_MODE_SETTING 5
-
 @implementation photoCollectionSectionView
 
 - (void)dealloc
@@ -229,12 +222,12 @@ static NSString * const headerID = @"header";
     [base_DataController selTBL:10
                            data:_glbData
                        strWhere:@""];
-    
+    /*
     _photoData = [[NSMutableArray alloc]init];
     [base_DataController selTBL:2
                            data:_photoData
                        strWhere:@"WHERE stat = 1 ORDER BY id DESC"];
-    
+    */
     _selectedData = [[NSMutableDictionary alloc]init];
     
     //定期的に画像が更新されているかチェック。
@@ -277,7 +270,7 @@ static NSString * const headerID = @"header";
         gesture.numberOfTapsRequired = 1;
         [self.navigationItem.titleView addGestureRecognizer:gesture];
         [gesture release];
-        [self modeChg:0];
+        [self modeChg:SET_MODE_IMPORT];
     }
     else {
         self.navigationItem.titleView.userInteractionEnabled = NO;
@@ -453,6 +446,7 @@ static NSString * const headerID = @"header";
     }
     [[self.navigationItem.rightBarButtonItems objectAtIndex:1] setEnabled:YES];
     [self.collectionView reloadData];
+    NSLog(@"_photoData cnt = %ld", (long)[_photoData count]);
 }
 
 - (void)selectMode
@@ -997,7 +991,7 @@ static NSString * const headerID = @"header";
     /*
      int nums[] = {8,5,10};
      return nums[section];*/
-    
+    NSLog(@"cellcoll = %ld", (long)[_photoData count]);
     return [_photoData count];
 }
 
@@ -1019,7 +1013,7 @@ static NSString * const headerID = @"header";
     NSString* thumbPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/thumbnail/%@_%@", [[_photoData objectAtIndex:indexPath.row] objectForKey:@"card_ssid"], [[_photoData objectAtIndex:indexPath.row] objectForKey:@"file_name"]]];
     
     
-    if ([common fileExistsAtPath:thumbPath]) {
+    if ([common fileExistsAtPath:thumbPath] && [[NSData dataWithContentsOfFile:thumbPath] length] > 0) {
         cell.backgroundView = nil;
         
         UIImage* img = [[UIImage alloc] initWithContentsOfFile:thumbPath];
@@ -1034,9 +1028,23 @@ static NSString * const headerID = @"header";
          //    NSLog(@"row=%ld, 普通", (long)indexPath.row);
             image =  [UIImage imageWithCGImage:img.CGImage scale:img.scale orientation:UIImageOrientationUp];
         }
+        
         UIImageView* imgView = [[UIImageView alloc]initWithImage:image];
-        imgView.frame = CGRectMake(0, 0, 240, 180);
+     //   NSLog(@"size height = %f", image.size.height);
+       // NSLog(@"size width = %f", image.size.width);
+       // NSLog(@"img.scale=%f", img.scale);
         cell.backgroundView = imgView;
+        
+        if (image.size.height < image.size.width) {
+            cell.backgroundView.frame = CGRectMake(0, 0, 240, 180);
+        }
+        else{
+            float sh = 180 / image.size.height;
+            float rw = sh * image.size.width;
+            float rx = (240 - rw) / 2;
+      //      NSLog(@"resize sh = %f, rw = %f, rx = %f", sh, rw, rx);
+            cell.backgroundView.frame = CGRectMake(rx, 0, rw, 180);
+        }
         [imgView release];
         [img release];
         
@@ -1062,6 +1070,22 @@ static NSString * const headerID = @"header";
             cell.alpha = 1;
         }
         [upDic release];
+    }
+    
+    else if (
+         ([common fileExistsAtPath:thumbPath] == YES && [[NSData dataWithContentsOfFile:thumbPath] length] <= 0) ||
+         [common fileExistsAtPath:thumbPath] == NO
+         ) {
+        NSLog(@"nai node upd");
+        //データが0なので、flgを0に
+        NSMutableDictionary* upDic = [[NSMutableDictionary alloc]init];
+        [upDic setObject:@"0" forKey:@"get_flg"];
+        
+        [base_DataController simpleUpd:2
+                              upColumn:upDic
+                              strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[_photoData objectAtIndex:indexPath.row] objectForKey:@"id"]]];
+        [upDic release];
+   //     [self reloadTblData];
     }
     
     NSString* face_tag;
@@ -1106,6 +1130,7 @@ static NSString * const headerID = @"header";
     photoLabel.text = [NSString stringWithFormat:@"%@\n%@\n%@\n%@", [[_photoData objectAtIndex:indexPath.row] objectForKey:@"date"], [[_photoData objectAtIndex:indexPath.row] objectForKey:@"number"], [[_photoData objectAtIndex:indexPath.row] objectForKey:@"name"], face_tag];
     [cell.contentView addSubview:photoLabel];
     [photoLabel release];
+    
     
     //未設定
     if (
@@ -1313,35 +1338,37 @@ static NSString * const headerID = @"header";
     
     switch (indexPath.row) {
             //getモード
-        case 0:
+        case SET_MODE_IMPORT:
             self.title = @"Import";
             
-            [self modeChg:0];
+            [self modeChg:SET_MODE_IMPORT];
             break;
             //postモード
-        case 1:
+        case SET_MODE_EXPORT:
             self.title = @"Export";
-            [self modeChg:1];
+            [self modeChg:SET_MODE_EXPORT];
             break;
             //Viewerモード
-        case 2:
+        case SET_MODE_VIEWER:
             self.title = @"Viewer";
-            [self modeChg:1];
+            [self modeChg:SET_MODE_VIEWER];
             break;
             //Compareモード
-        case 3:
-            [self modeChg:3];
+        case SET_MODE_COMPARE:
+            [self modeChg:SET_MODE_COMPARE];
             break;
             //Makeモード
-        case 4:
+        case SET_MODE_MAKE:
             self.title = @"Make";
-            [self modeChg:1];
+            [self modeChg:SET_MODE_MAKE];
             break;
             //設定へ
-        default:
+        case SET_MODE_SETTING:
             self.title = @"setting";
-            [self modeChg:5];
+            [self modeChg:SET_MODE_SETTING];
           //  [self goSettingView];
+            break;
+        default:
             break;
     }
     [arp release];

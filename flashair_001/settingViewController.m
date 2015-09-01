@@ -358,7 +358,7 @@
             return @"保存先";
             break;
         case SET_SEC_MEM: // 4個目のセクションの場合
-            return @"会員データ";
+            return @"患者データ";
             break;
         case SET_SEC_DEFLG: // 5個目のセクションの場合
             return @"ダウンロードデータの初期フラグ";
@@ -664,7 +664,7 @@
     }
     else if (indexPath.section == SET_SEC_MEM){
         memberViewController* memViewCon = [[memberViewController alloc]init];
-        memViewCon.title = @"会員データ";
+        memViewCon.title = @"患者データ";
         UINavigationController* navCon = [[UINavigationController alloc]initWithRootViewController:memViewCon];
         [self presentViewController:navCon animated:YES completion:nil];
         [navCon release];
@@ -1059,6 +1059,7 @@ numberOfRowsInComponent:(NSInteger)component
         
         if (data && !error) {
             NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"str = %@", str);
             if ([str isEqualToString:@"success"] == YES) {
                 alert.message = @"成功しました。";
             }else if ([str isEqualToString:@"already"] == YES) {

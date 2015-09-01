@@ -10,6 +10,7 @@
 		1208E3C71B7ED6AD00DEB492 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1208E3C61B7ED6AD00DEB492 /* loginViewController.m */; };
 		121D8ED91B29302F00992EC4 /* settingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 121D8ED81B29302F00992EC4 /* settingViewController.m */; };
 		121EE0651B32952500EFC32C /* tenkeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 121EE0641B32952500EFC32C /* tenkeyViewController.m */; };
+		1230131F1B95EF4C00BFA8C3 /* デンタルロゴ.png in Resources */ = {isa = PBXBuildFile; fileRef = 1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */; };
 		124242C61B608A7A00E64717 /* compareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 124242C51B608A7A00E64717 /* compareViewController.m */; };
 		124242C91B60AE3000E64717 /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 124242C81B60AE3000E64717 /* CanvasView.m */; };
 		124242CF1B6358E800E64717 /* palette.png in Resources */ = {isa = PBXBuildFile; fileRef = 124242CD1B6358E800E64717 /* palette.png */; };
@@ -29,7 +30,6 @@
 		1249F3C81B58CB9F00B7C44C /* slideMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1249F3C71B58CB9F00B7C44C /* slideMenuView.m */; };
 		12641F291B368F5A00B052E5 /* imageEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12641F281B368F5A00B052E5 /* imageEditViewController.m */; };
 		12827F481B47A9D800BA97CE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12827F471B47A9D800BA97CE /* SystemConfiguration.framework */; };
-		12827F4C1B47BF8000BA97CE /* デンタルロゴ.png in Resources */ = {isa = PBXBuildFile; fileRef = 12827F4B1B47BF8000BA97CE /* デンタルロゴ.png */; };
 		12827F4E1B47BF9300BA97CE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12827F4D1B47BF9300BA97CE /* LaunchScreen.xib */; };
 		12A6038E1B2572EF008FE57D /* topCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12A6038D1B2572EF008FE57D /* topCollectionViewController.m */; };
 		12F740611B27FC2000D105F1 /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12F740601B27FC2000D105F1 /* mainViewController.m */; };
@@ -79,6 +79,7 @@
 		121D8ED81B29302F00992EC4 /* settingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingViewController.m; sourceTree = "<group>"; };
 		121EE0631B32952500EFC32C /* tenkeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tenkeyViewController.h; sourceTree = "<group>"; };
 		121EE0641B32952500EFC32C /* tenkeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tenkeyViewController.m; sourceTree = "<group>"; };
+		1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "デンタルロゴ.png"; sourceTree = "<group>"; };
 		124242C41B608A7A00E64717 /* compareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compareViewController.h; sourceTree = "<group>"; };
 		124242C51B608A7A00E64717 /* compareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = compareViewController.m; sourceTree = "<group>"; };
 		124242C71B60AE3000E64717 /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
@@ -109,7 +110,6 @@
 		12641F271B368F5900B052E5 /* imageEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageEditViewController.h; sourceTree = "<group>"; };
 		12641F281B368F5A00B052E5 /* imageEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageEditViewController.m; sourceTree = "<group>"; };
 		12827F471B47A9D800BA97CE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		12827F4B1B47BF8000BA97CE /* デンタルロゴ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "デンタルロゴ.png"; sourceTree = "<group>"; };
 		12827F4D1B47BF9300BA97CE /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		12A6038C1B2572EF008FE57D /* topCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = topCollectionViewController.h; sourceTree = "<group>"; };
 		12A6038D1B2572EF008FE57D /* topCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = topCollectionViewController.m; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 		1C814AFB1AB679B900EEE8C4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				12827F4B1B47BF8000BA97CE /* デンタルロゴ.png */,
+				1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */,
 				1C814B411AB6B38A00EEE8C4 /* FontAwesome.ttf */,
 				1C814AFC1AB679B900EEE8C4 /* Info.plist */,
 				1C814AFD1AB679B900EEE8C4 /* main.m */,
@@ -436,6 +436,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1230131F1B95EF4C00BFA8C3 /* デンタルロゴ.png in Resources */,
 				1C814B421AB6B42400EEE8C4 /* FontAwesome.ttf in Resources */,
 				124242CF1B6358E800E64717 /* palette.png in Resources */,
 				124317C51B53A7B500D1B37C /* viewer.png in Resources */,
@@ -443,7 +444,6 @@
 				1C814B071AB679B900EEE8C4 /* Main.storyboard in Resources */,
 				1C9F28BF1ACFD7E200223863 /* top.png in Resources */,
 				124317C11B53A7B500D1B37C /* compare.png in Resources */,
-				12827F4C1B47BF8000BA97CE /* デンタルロゴ.png in Resources */,
 				12827F4E1B47BF9300BA97CE /* LaunchScreen.xib in Resources */,
 				1C814B091AB679B900EEE8C4 /* Images.xcassets in Resources */,
 				124317C21B53A7B500D1B37C /* export.png in Resources */,
@@ -617,7 +617,8 @@
 		1C814B1C1AB679B900EEE8C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = flashair_001/Info.plist;
@@ -632,7 +633,8 @@
 		1C814B1D1AB679B900EEE8C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = flashair_001/Info.plist;

@@ -92,12 +92,16 @@
     [labelText appendAttributedString:labelTextUnit1];
     [labelTextUnit1 release];
     
+    NSString* headerViewStr = nil;
+    
     if ([self.targetList count] > 0) {
         NSAttributedString* labelTextUnit2 = [[NSAttributedString alloc]initWithString:@"選択した画像"
                                                                             attributes:@{NSForegroundColorAttributeName:[UIColor blackColor],
                                                                                          NSFontAttributeName:FUTURA_FONT_M3}];
         [labelText appendAttributedString:labelTextUnit2];
         [labelTextUnit2 release];
+        
+        headerViewStr = @"選択した画像へ設定した内容が一括で反映されます。";
     }
     else if (self.target <= 0) {
         NSAttributedString* labelTextUnit2 = [[NSAttributedString alloc]initWithString:@"デフォルト"
@@ -105,6 +109,8 @@
                                                                                          NSFontAttributeName:FUTURA_FONT_M3}];
         [labelText appendAttributedString:labelTextUnit2];
         [labelTextUnit2 release];
+        
+        headerViewStr = @"この後インポートする画像に設定した内容が反映されます。";
     }
     else{
         
@@ -113,6 +119,8 @@
                                                                                          NSFontAttributeName:FUTURA_FONT_M3}];
         [labelText appendAttributedString:labelTextUnit2];
         [labelTextUnit2 release];
+        
+        headerViewStr = @"選択した画像へ設定します。";
     }
     
     
@@ -130,6 +138,21 @@
     _tableView.contentInset = UIEdgeInsetsMake(0.f, 0.f, AD_HEIGHT, 0.f);
     _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0.f, 0.f, AD_HEIGHT, 0.f);
     [self.view addSubview:_tableView];
+    
+    UIView* headerView = [[UIView alloc]init];
+    headerView.frame = CGRectMake(0, 0, MAIN_WIDTH, BASE_BTN_HEIGHT);
+    headerView.backgroundColor = [UIColor yellowColor];
+    UILabel* lbl = [[UILabel alloc]init];
+    lbl.frame = headerView.frame;
+    lbl.textAlignment = NSTextAlignmentCenter;
+    lbl.textColor = [UIColor blackColor];
+    lbl.text = headerViewStr;
+    [headerView addSubview:lbl];
+    [lbl release];
+    
+    _tableView.tableHeaderView = headerView;
+    [headerView release];
+    
 
     UIBarButtonItem* leftBtn = [[UIBarButtonItem alloc]init];
     leftBtn.title = [FontAwesomeStr getICONStr:@"fa-times"];

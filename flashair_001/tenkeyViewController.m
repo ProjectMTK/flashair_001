@@ -215,11 +215,18 @@
 }
 - (void)btnTouch:(UIButton*)button
 {
-    self.targetNumber = self.targetNumber * 10;
-    self.targetNumber = self.targetNumber + button.tag;
+    NSNumber *numberValue = [[NSNumber alloc] initWithInt:((self.targetNumber * 10) + button.tag)];
+    //桁数を求める
+    NSInteger digits = (int)log10([numberValue doubleValue]) + 1;
     
-    _numberLabel.text = [NSString stringWithFormat:MEMBER_NUMBER_NUM, (long)self.targetNumber];
-    [self reloadTblData];
+    if (digits <= MEMBER_NUMBER_NUMS) {
+        self.targetNumber = self.targetNumber * 10;
+        self.targetNumber = self.targetNumber + button.tag;
+        
+        _numberLabel.text = [NSString stringWithFormat:MEMBER_NUMBER_NUM, (long)self.targetNumber];
+        [self reloadTblData];
+    }
+    
 }
 - (void)btnTouchOneDel:(UIButton*)button
 {

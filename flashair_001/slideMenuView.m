@@ -60,7 +60,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    return SET_MODE_NUM;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,33 +82,33 @@
     
     UIImage* img;
     switch (indexPath.row) {
-        case 0:
+        case SET_MODE_IMPORT:
             cell.textLabel.text = @"Import";
             img = [[UIImage alloc]initWithContentsOfFile:[[NSString alloc]initWithString:[[NSBundle mainBundle] pathForResource:@"import" ofType:@"png"]]];
             cell.backgroundColor = [UIColor colorWithRed:0.91 green:0.22 blue:0.09 alpha:1.0];
             break;
-        case 1:
+        case SET_MODE_EXPORT:
             cell.textLabel.text = @"Export";
             img = [[UIImage alloc]initWithContentsOfFile:[[NSString alloc]initWithString:[[NSBundle mainBundle] pathForResource:@"export" ofType:@"png"]]];
             cell.backgroundColor =
             [UIColor colorWithRed:0.11 green:0.13 blue:0.53 alpha:1.0];
             break;
-        case 2:
+        case SET_MODE_VIEWER:
             cell.textLabel.text = @"Viewer";
             img = [[UIImage alloc]initWithContentsOfFile:[[NSString alloc]initWithString:[[NSBundle mainBundle] pathForResource:@"viewer" ofType:@"png"]]];
             cell.backgroundColor = [UIColor colorWithRed:0.95 green:0.57 blue:0.09 alpha:1.0];
             break;
-        case 3:
+        case SET_MODE_COMPARE:
             cell.textLabel.text = @"Compare";
             img = [[UIImage alloc]initWithContentsOfFile:[[NSString alloc]initWithString:[[NSBundle mainBundle] pathForResource:@"compare" ofType:@"png"]]];
             cell.backgroundColor = [UIColor colorWithRed:0.00 green:0.41 blue:0.20 alpha:1.0];
             break;
-        case 4:
+        case SET_MODE_MAKE:
             cell.textLabel.text = @"Make";
             img = [[UIImage alloc]initWithContentsOfFile:[[NSString alloc]initWithString:[[NSBundle mainBundle] pathForResource:@"make" ofType:@"png"]]];
             cell.backgroundColor = [UIColor colorWithRed:0.38 green:0.10 blue:0.53 alpha:1.0];
             break;
-        default:
+        case SET_MODE_SETTING:
             cell.textLabel.text = @"Setting";
             img = [common imageWithFAText:[FontAwesomeStr getICONStr:@"fa-cogs"]
                                   setFont:FA_ICON_FONT_P10
@@ -116,6 +116,8 @@
                                  setColor:UICOLOR_GRAY_03];
             cell.backgroundColor = [UIColor grayColor];
             
+            break;
+        default:
             break;
             /*
                    case 2:

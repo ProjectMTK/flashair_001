@@ -363,7 +363,7 @@
             return @"パスワード";
             break;
         case 2:
-            return @"FlashAirSSID";
+            return @"DENTAL AIR SSID";
             break;
         default:
             return @"";

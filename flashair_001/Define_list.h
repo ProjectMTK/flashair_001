@@ -185,6 +185,18 @@
 
 //患者番号の桁数
 #define MEMBER_NUMBER_NUM @"%08ld"
+#define MEMBER_NUMBER_NUMS 8
+
+//slidemenuの数
+#define SET_MODE_NUM 3
+//slidemenuのrow
+#define SET_MODE_IMPORT 0
+#define SET_MODE_EXPORT 1
+#define SET_MODE_VIEWER 20
+#define SET_MODE_COMPARE 3
+#define SET_MODE_MAKE 4
+#define SET_MODE_SETTING 2
+
 
 #define BASE_SYS_FONT_0 [UIFont fontWithName:@"ArialRoundedMTBold" size:[UIFont systemFontSize]]
 #define BASE_SYS_FONT_P1 [UIFont fontWithName:@"ArialRoundedMTBold" size:[UIFont systemFontSize] + 1]

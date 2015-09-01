@@ -158,6 +158,7 @@
             //接続していない場合は処理を止めておく。
             NSLog(@"loop stop");
             [NSThread sleepForTimeInterval:10.0f];
+            [self tableReload];
             NSLog(@"loop restart");
         }
         
@@ -308,7 +309,7 @@
         cnter++;
     }
     cnter = 0;
-    NSLog(@"go!!!");
+ //   NSLog(@"go!!!");
     
     //リスト取得開始
     _listChkFlg = YES;
@@ -701,9 +702,9 @@
                 NSLog(@"pData cnt = %ld", (long)[pData count]);
            //     for (NSInteger i = 0; i < [pData count]; i++) {
                     //画像が存在している
-                
+                    
                     NSLog(@"non save photo data");
-                    if ([common fileExistsAtPath:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]]] == YES) {
+                    if ([common fileExistsAtPath:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]]] == YES && [[NSData dataWithContentsOfFile:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]]] length] > 0) {
                         
                         NSLog(@"[1]データがあるので更新");
                         //既にDownload済で、get_flgが0のものはget_flgを1に変更する
@@ -827,6 +828,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [self tableReload];
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
