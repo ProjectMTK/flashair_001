@@ -158,7 +158,8 @@
             //接続していない場合は処理を止めておく。
             NSLog(@"loop stop");
             [NSThread sleepForTimeInterval:10.0f];
-            [self tableReload];
+            
+            [self tablePrReload];
             NSLog(@"loop restart");
         }
         
@@ -815,6 +816,12 @@
     UINavigationController* navCon = (UINavigationController*)self.window.rootViewController;
     [[navCon.viewControllers objectAtIndex:0] reloadTblData];
 }
+- (void)tablePrReload
+{
+    UINavigationController* navCon = (UINavigationController*)self.window.rootViewController;
+    [[navCon.viewControllers objectAtIndex:0] reloadPrTblData];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

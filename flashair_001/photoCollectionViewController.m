@@ -420,6 +420,14 @@ static NSString * const headerID = @"header";
     [NSThread exit];
 }
 
+- (void)reloadPrTblData
+{
+    if (_selectSW == NO) {
+        [self reloadTblData];
+    }
+    
+}
+
 - (void)reloadTblData
 {
     LOGLOG;
@@ -773,6 +781,7 @@ static NSString * const headerID = @"header";
             [[[_photoData objectAtIndex:_upCnt] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES ||
             [[[_photoData objectAtIndex:_upCnt] objectForKey:@"face_tag"] isEqualToString:@"8"] == YES
             ) {
+        //    NSLog(@"Mirror Mirror!!!");
             img =  [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationDownMirrored];
         }else{
             img =  [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationUp];

@@ -61,6 +61,7 @@
 - (void)modeChg:(NSInteger)targetMode;
 
 - (void)reloadTblData;
+- (void)reloadPrTblData;
 
 //URLスキーム(設定へ)
 - (void)confOut;
