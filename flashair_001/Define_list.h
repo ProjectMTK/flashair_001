@@ -155,6 +155,7 @@
 #define RESIZE_UNIT_W_MIN 12
 #define RESIZE_UNIT_H_MIN 9
 
+#define HEADER_REFERENCE_H 30
 
 //USERSBOOKに賭けるPtの初期値
 #define USERSBOOK_BET_UNIT 100
@@ -188,14 +189,34 @@
 #define MEMBER_NUMBER_NUMS 8
 
 //slidemenuの数
-#define SET_MODE_NUM 3
-//slidemenuのrow
-#define SET_MODE_IMPORT 0
-#define SET_MODE_EXPORT 1
-#define SET_MODE_VIEWER 20
-#define SET_MODE_COMPARE 3
-#define SET_MODE_MAKE 4
-#define SET_MODE_SETTING 2
+#define SET_MODE_NUM 6
+//slidemenuのrow //本来
+#define SET_MODE_IMPORT 0       //0
+#define SET_MODE_EXPORT 1       //1
+#define SET_MODE_VIEWER 20      //2
+#define SET_MODE_COMPARE 30     //3
+#define SET_MODE_MAKE 40         //4
+#define SET_MODE_MEMRELOAD 2    //5
+#define SET_MODE_TAG 3      //6
+#define SET_MODE_CAMERA 4      //7
+#define SET_MODE_SETTING (SET_MODE_NUM - 1)      //8
+
+//カメラで撮影した場合のSSIDのかわりの名前
+#define CAM_IPAD_SSID @"iPad_Camera"
+//カメラシャッターエリア幅
+#define CAMERA_BLOCK_W 102.f
+#define CAMERA_BLOCK_BTN_H 68.f
+
+#define HEAD_SHOT_X 352.f
+#define HEAD_SHOT_W 320.f
+
+#define SHOULDER_SHOT_W 75.f
+#define SHOULDER_SHOT_Y (IPAD_SCREEN_HEIGHT_LANDSCAPE - SHOULDER_SHOT_W)
+
+
+#define CAMERA_BLOCK_W_HF 51.0f
+#define CAMERA_BLOCK_BTN_H_HF 34.0f
+#define CAMERA_BLOCK_BTN_H_QT 17.0f
 
 
 #define BASE_SYS_FONT_0 [UIFont fontWithName:@"ArialRoundedMTBold" size:[UIFont systemFontSize]]

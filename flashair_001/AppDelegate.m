@@ -96,6 +96,32 @@
     }
     [ary10 release];
     
+    
+    //glbデータをチェックしてなければ追加
+    NSMutableArray* ary12 = [[NSMutableArray alloc] init];
+    [base_DataController selTBL:12 data:ary12 strWhere:@""];
+    if ([ary12 count] <= 0) {
+        
+        // 書き込みたいファイルのパスを作成
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"face_tag" ofType:@"txt"];
+     //   NSLog(@"filePath = %@", filePath);
+       
+        NSData *data = [[NSData alloc]initWithContentsOfFile:filePath];
+     //   NSLog(@"data = %@", data);
+        
+        //保存するデータを作る
+        NSMutableDictionary* mDic12 = [[NSMutableDictionary alloc]init];
+        mDic12 = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    //    NSLog(@"mdic12 = %@", mDic12);
+        if (mDic12 != nil) {
+            [base_DataController dropTbl:12];
+            [base_DataController sumIns:mDic12 DB_no:12];
+        }
+        [data release];
+        [mDic12 release];
+    }
+    [ary12 release];
+    
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     photoCollectionViewController* mainCon = [[photoCollectionViewController alloc] init];
@@ -159,13 +185,13 @@
             NSLog(@"loop stop");
             [NSThread sleepForTimeInterval:10.0f];
             
-            [self tablePrReload];
+            [self performSelectorOnMainThread:@selector(tablePrReload) withObject:nil waitUntilDone:YES];
             NSLog(@"loop restart");
         }
         
         //現在接続しているSSIDでget_flgが0のものがあれば取得する。
         else if (
-            ([base_DataController selCnt:2 strWhere:[NSString stringWithFormat:@"WHERE card_ssid = '%@' AND get_flg = 0", [common getSSID]]] > 0)
+            ([base_DataController selCnt:2 strWhere:[NSString stringWithFormat:@"WHERE card_ssid = '%@' AND stat = 1 AND get_flg = 0", [common getSSID]]] > 0)
                  ){
             NSLog(@"photo download");
             
@@ -176,83 +202,118 @@
             float resizeW = [[[ary10 objectAtIndex:0] objectForKey:@"resize_w"] floatValue];
             
             NSMutableArray* pData = [[NSMutableArray alloc]init];
-            [base_DataController selTBL:2 data:pData strWhere:@"WHERE get_flg = 0"];
-       //     NSInteger i = 0;
+            [base_DataController selTBL:2 data:pData strWhere:@"WHERE stat = 1 AND get_flg = 0"];
+            //     NSInteger i = 0;
+            NSLog(@"pData = %ld", (long)[pData count]);
             if ([pData count] > 0) {
                 NSInteger limit = 10;
                 if (limit > [pData count]) {
                     limit = [pData count];
                 }
                 for (NSInteger i = 0; i < limit; i++) {
-                    
-                if ([common fileExistsAtPath:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]]] == YES) {
-                    
-                    NSLog(@"[1]データがあるので更新");
-                    //既にDownload済で、get_flgが0のものはget_flgを1に変更する
-                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-                    [dic setObject:@"1" forKey:@"get_flg"];
-                    [base_DataController simpleUpd:2
-                                          upColumn:dic
-                                          strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
-                    [dic release];
-                }
-                //画像が存在していない=ダウンロード開始
-                else{
-                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:baseUrl, [[pData objectAtIndex:i] objectForKey:@"dir"], [[pData objectAtIndex:i] objectForKey:@"file_name"]]];
-                    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-                    // リクエストを送信する。
-                    NSError *error;
-                    NSURLResponse *response;
-                    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                    
-                    UIImage* aImaged = [[UIImage alloc] initWithData:data];
-                    // 取得した画像の縦サイズ、横サイズを取得する
-                    float imageW = aImaged.size.width;
-                    float imageH = aImaged.size.height;
-                    
-                    // リサイズする倍率を作成する。
-                    float scale = (resizeW / imageW);
-                    float scaleT = (BASIC_RESIZE_THUMB_W / imageW);
-                    
-                    //collectionに保存
-                    CGSize resizedSize = CGSizeMake(imageW * scale, imageH * scale);
-                    UIGraphicsBeginImageContext(resizedSize);
-                    
-                    [aImaged drawInRect:CGRectMake(0, 0, resizedSize.width, resizedSize.height)];
-                    
-                    UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-                    
-                    UIGraphicsEndImageContext();
-                    
-                    NSData* nsData = UIImageJPEGRepresentation(resizedImage, 0.8f);
-                    
-                    [nsData writeToFile:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]] atomically:YES];
-                    
-                    //thumbnailに保存
-                    CGSize resizedTSize = CGSizeMake(imageW * scaleT, imageH * scaleT);
-                    UIGraphicsBeginImageContext(resizedTSize);
-
-                    //ここまで
-                    [aImaged drawInRect:CGRectMake(0, 0, resizedTSize.width, resizedTSize.height)];
-                    UIImage* resizedTImage = UIGraphicsGetImageFromCurrentImageContext();
-                    UIGraphicsEndImageContext();
-                    
-                    NSData* nsTData = UIImageJPEGRepresentation(resizedTImage, 0.8f);
-                    
-                    [nsTData writeToFile:[NSString stringWithFormat:thumbPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]] atomically:YES];
-                    
-                    [aImaged release];
-                    [request release];
-                    
-                    //Download済なのでget_flgを1に変更する
-                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-                    [dic setObject:@"1" forKey:@"get_flg"];
-                    [base_DataController simpleUpd:2
-                                          upColumn:dic
-                                          strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
-                    [dic release];
-                    [self performSelectorOnMainThread:@selector(tableReload) withObject:nil waitUntilDone:YES];
-                }
+                    if ([common fileExistsAtPath:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]]] == YES) {
+                        
+                        NSLog(@"[1]データがあるので更新");
+                        //既にDownload済で、get_flgが0のものはget_flgを1に変更する
+                        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                        [dic setObject:@"1" forKey:@"get_flg"];
+                        [base_DataController simpleUpd:2
+                                              upColumn:dic
+                                              strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
+                        [dic release];
+                    }
+                    //画像が存在していない=ダウンロード開始
+                    else{
+                        NSLog(@"[2]データがないのでDL");
+                        
+                        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:baseUrl, [[pData objectAtIndex:i] objectForKey:@"dir"], [[pData objectAtIndex:i] objectForKey:@"file_name"]]];
+                        NSLog(@"[url]=%@", url);
+                        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+                        // リクエストを送信する。
+                        NSError *error;
+                        NSURLResponse *response;
+                        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                        
+                        const unsigned char *dataBuffer = [data bytes];
+                        
+                        //データが画像である場合のみ
+                        if (
+                            // JPEG
+                            (
+                            (unsigned long)dataBuffer[0] == 255 &&
+                            (unsigned long)dataBuffer[1] == 216
+                             ) || (
+                                   // GIF
+                            (unsigned long)dataBuffer[0] == 71 &&
+                            (unsigned long)dataBuffer[1] == 73 &&
+                            (unsigned long)dataBuffer[2] == 70
+                                   ) || (
+                                         // PNG
+                            (unsigned long)dataBuffer[1] == 80 &&
+                            (unsigned long)dataBuffer[2] == 78 &&
+                            (unsigned long)dataBuffer[3] == 71
+                            )
+                            )
+                        {
+                            //   NSLog(@"[3]DL!!!=%@",  [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                            UIImage* aImaged = [[UIImage alloc] initWithData:data];
+                            // 取得した画像の縦サイズ、横サイズを取得する
+                            float imageW = aImaged.size.width;
+                            float imageH = aImaged.size.height;
+                            
+                            // リサイズする倍率を作成する。
+                            float scale = (resizeW / imageW);
+                            float scaleT = (BASIC_RESIZE_THUMB_W / imageW);
+                            
+                            //collectionに保存
+                            CGSize resizedSize = CGSizeMake(imageW * scale, imageH * scale);
+                            UIGraphicsBeginImageContext(resizedSize);
+                            
+                            [aImaged drawInRect:CGRectMake(0, 0, resizedSize.width, resizedSize.height)];
+                            
+                            UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+                            
+                            UIGraphicsEndImageContext();
+                            
+                            NSData* nsData = UIImageJPEGRepresentation(resizedImage, 0.8f);
+                            
+                            [nsData writeToFile:[NSString stringWithFormat:fullPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]] atomically:YES];
+                            
+                            //thumbnailに保存
+                            CGSize resizedTSize = CGSizeMake(imageW * scaleT, imageH * scaleT);
+                            UIGraphicsBeginImageContext(resizedTSize);
+                            
+                            //ここまで
+                            [aImaged drawInRect:CGRectMake(0, 0, resizedTSize.width, resizedTSize.height)];
+                            UIImage* resizedTImage = UIGraphicsGetImageFromCurrentImageContext();
+                            UIGraphicsEndImageContext();
+                            
+                            NSData* nsTData = UIImageJPEGRepresentation(resizedTImage, 0.8f);
+                            
+                            [nsTData writeToFile:[NSString stringWithFormat:thumbPath, [[pData objectAtIndex:i] objectForKey:@"file_name"]] atomically:YES];
+                            
+                            [aImaged release];
+                            [request release];
+                            
+                            //Download済なのでget_flgを1に変更する
+                            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                            [dic setObject:@"1" forKey:@"get_flg"];
+                            [base_DataController simpleUpd:2
+                                                  upColumn:dic
+                                                  strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
+                            [dic release];
+                            [self performSelectorOnMainThread:@selector(tableReload) withObject:nil waitUntilDone:YES];
+                        }
+                        else {
+                            NSLog(@"画像じゃない");
+                            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                            [dic setObject:@"9" forKey:@"stat"];
+                            [base_DataController simpleUpd:2
+                                                  upColumn:dic
+                                                  strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
+                            [dic release];
+                        }
+                    }
                 }
             }
             [pData release];
@@ -373,7 +434,20 @@
                     [dic setObject:[[val componentsSeparatedByString:@","] objectAtIndex:0] forKey:@"dir"];
                     //接続中のcard_ssidを入れる。
                     [dic setObject:[common getSSID] forKey:@"card_ssid"];
-                    [dic setObject:@"" forKey:@"cre_date"];
+                    NSInteger date = [[[val componentsSeparatedByString:@","] objectAtIndex:4] integerValue];
+                    NSInteger time = [[[val componentsSeparatedByString:@","] objectAtIndex:5] integerValue];
+                    
+                    NSString* aString = [NSString stringWithFormat:@"%04u-%02u-%02u %02u:%02u:%02u",
+                                         (((date >> 9)  & 0x1FF) + 1980),
+                                         ((date >> 5)  & 0xF),
+                                         (date        & 0x1F),
+                                         ((time >> 11) & 0x1F),
+                                         ((time >> 5)  & 0x3F),
+                                         ((time        & 0x1F) * 2)
+                                         ];
+                 //   NSLog(@"aString = %@", aString);
+                    [dic setObject:aString forKey:@"cre_date"];
+                    
                     [dic setObject:@"" forKey:@"up_date"];
                     
                     //Download済はget_flgは1
@@ -598,6 +672,11 @@
                 [dic setObject:[[val componentsSeparatedByString:@","] objectAtIndex:0] forKey:@"dir"];
                 //接続中のcard_ssidを入れる。
                 [dic setObject:[common getSSID] forKey:@"card_ssid"];
+                
+                
+                    
+                
+                
                 [dic setObject:@"" forKey:@"cre_date"];
                 [dic setObject:@"" forKey:@"up_date"];
                 

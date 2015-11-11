@@ -10,6 +10,7 @@
 		1208E3C71B7ED6AD00DEB492 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1208E3C61B7ED6AD00DEB492 /* loginViewController.m */; };
 		121D8ED91B29302F00992EC4 /* settingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 121D8ED81B29302F00992EC4 /* settingViewController.m */; };
 		121EE0651B32952500EFC32C /* tenkeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 121EE0641B32952500EFC32C /* tenkeyViewController.m */; };
+		122A814B1BD230760014C6DD /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122A814A1BD230760014C6DD /* CoreMotion.framework */; };
 		1230131F1B95EF4C00BFA8C3 /* デンタルロゴ.png in Resources */ = {isa = PBXBuildFile; fileRef = 1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */; };
 		124242C61B608A7A00E64717 /* compareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 124242C51B608A7A00E64717 /* compareViewController.m */; };
 		124242C91B60AE3000E64717 /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 124242C81B60AE3000E64717 /* CanvasView.m */; };
@@ -29,6 +30,17 @@
 		1249F3C51B58BE5A00B7C44C /* cusColView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1249F3C41B58BE5A00B7C44C /* cusColView.m */; };
 		1249F3C81B58CB9F00B7C44C /* slideMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1249F3C71B58CB9F00B7C44C /* slideMenuView.m */; };
 		12641F291B368F5A00B052E5 /* imageEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12641F281B368F5A00B052E5 /* imageEditViewController.m */; };
+		12663C3F1B9885D800E06FA0 /* slideTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 12663C3E1B9885D800E06FA0 /* slideTagView.m */; };
+		126784081BA54377003FE068 /* cusImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 126784071BA54377003FE068 /* cusImagePickerController.m */; };
+		1267840C1BA54569003FE068 /* F10.png in Resources */ = {isa = PBXBuildFile; fileRef = 126784091BA54569003FE068 /* F10.png */; };
+		1267840D1BA54569003FE068 /* F11.png in Resources */ = {isa = PBXBuildFile; fileRef = 1267840A1BA54569003FE068 /* F11.png */; };
+		1267840E1BA54569003FE068 /* F12.png in Resources */ = {isa = PBXBuildFile; fileRef = 1267840B1BA54569003FE068 /* F12.png */; };
+		126784121BA548DA003FE068 /* F10on.png in Resources */ = {isa = PBXBuildFile; fileRef = 1267840F1BA548DA003FE068 /* F10on.png */; };
+		126784131BA548DA003FE068 /* F11on.png in Resources */ = {isa = PBXBuildFile; fileRef = 126784101BA548DA003FE068 /* F11on.png */; };
+		126784141BA548DA003FE068 /* F12on.png in Resources */ = {isa = PBXBuildFile; fileRef = 126784111BA548DA003FE068 /* F12on.png */; };
+		126784161BA55310003FE068 /* face_tag.txt in Resources */ = {isa = PBXBuildFile; fileRef = 126784151BA55310003FE068 /* face_tag.txt */; };
+		1267841C1BABF759003FE068 /* cameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1267841B1BABF759003FE068 /* cameraViewController.m */; };
+		1267841E1BAC4D43003FE068 /* photoShutter2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1267841D1BAC4A39003FE068 /* photoShutter2.caf */; };
 		12827F481B47A9D800BA97CE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12827F471B47A9D800BA97CE /* SystemConfiguration.framework */; };
 		12827F4E1B47BF9300BA97CE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12827F4D1B47BF9300BA97CE /* LaunchScreen.xib */; };
 		12A6038E1B2572EF008FE57D /* topCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12A6038D1B2572EF008FE57D /* topCollectionViewController.m */; };
@@ -79,6 +91,7 @@
 		121D8ED81B29302F00992EC4 /* settingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingViewController.m; sourceTree = "<group>"; };
 		121EE0631B32952500EFC32C /* tenkeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tenkeyViewController.h; sourceTree = "<group>"; };
 		121EE0641B32952500EFC32C /* tenkeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tenkeyViewController.m; sourceTree = "<group>"; };
+		122A814A1BD230760014C6DD /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "デンタルロゴ.png"; sourceTree = "<group>"; };
 		124242C41B608A7A00E64717 /* compareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compareViewController.h; sourceTree = "<group>"; };
 		124242C51B608A7A00E64717 /* compareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = compareViewController.m; sourceTree = "<group>"; };
@@ -109,6 +122,20 @@
 		1249F3C71B58CB9F00B7C44C /* slideMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = slideMenuView.m; sourceTree = "<group>"; };
 		12641F271B368F5900B052E5 /* imageEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageEditViewController.h; sourceTree = "<group>"; };
 		12641F281B368F5A00B052E5 /* imageEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageEditViewController.m; sourceTree = "<group>"; };
+		12663C3D1B9885D800E06FA0 /* slideTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = slideTagView.h; sourceTree = "<group>"; };
+		12663C3E1B9885D800E06FA0 /* slideTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = slideTagView.m; sourceTree = "<group>"; };
+		126784061BA54377003FE068 /* cusImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cusImagePickerController.h; sourceTree = "<group>"; };
+		126784071BA54377003FE068 /* cusImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cusImagePickerController.m; sourceTree = "<group>"; };
+		126784091BA54569003FE068 /* F10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = F10.png; sourceTree = "<group>"; };
+		1267840A1BA54569003FE068 /* F11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = F11.png; sourceTree = "<group>"; };
+		1267840B1BA54569003FE068 /* F12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = F12.png; sourceTree = "<group>"; };
+		1267840F1BA548DA003FE068 /* F10on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = F10on.png; sourceTree = "<group>"; };
+		126784101BA548DA003FE068 /* F11on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = F11on.png; sourceTree = "<group>"; };
+		126784111BA548DA003FE068 /* F12on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = F12on.png; sourceTree = "<group>"; };
+		126784151BA55310003FE068 /* face_tag.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = face_tag.txt; sourceTree = "<group>"; };
+		1267841A1BABF759003FE068 /* cameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cameraViewController.h; sourceTree = "<group>"; };
+		1267841B1BABF759003FE068 /* cameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cameraViewController.m; sourceTree = "<group>"; };
+		1267841D1BAC4A39003FE068 /* photoShutter2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = photoShutter2.caf; sourceTree = "<group>"; };
 		12827F471B47A9D800BA97CE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		12827F4D1B47BF9300BA97CE /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		12A6038C1B2572EF008FE57D /* topCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = topCollectionViewController.h; sourceTree = "<group>"; };
@@ -175,6 +202,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				122A814B1BD230760014C6DD /* CoreMotion.framework in Frameworks */,
 				12827F481B47A9D800BA97CE /* SystemConfiguration.framework in Frameworks */,
 				1C9F28BD1ACFD33100223863 /* libsqlite3.0.dylib in Frameworks */,
 			);
@@ -193,6 +221,12 @@
 		124242CA1B63562B00E64717 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1267840F1BA548DA003FE068 /* F10on.png */,
+				126784101BA548DA003FE068 /* F11on.png */,
+				126784111BA548DA003FE068 /* F12on.png */,
+				126784091BA54569003FE068 /* F10.png */,
+				1267840A1BA54569003FE068 /* F11.png */,
+				1267840B1BA54569003FE068 /* F12.png */,
 				1C9F28BE1ACFD7E200223863 /* top.png */,
 				124317BC1B53A7B500D1B37C /* compare.png */,
 				124317BD1B53A7B500D1B37C /* export.png */,
@@ -231,10 +265,16 @@
 				1C814B001AB679B900EEE8C4 /* AppDelegate.m */,
 				1249F3BA1B576CA000B7C44C /* photoCollectionViewController.h */,
 				1249F3BB1B576CA000B7C44C /* photoCollectionViewController.m */,
+				126784061BA54377003FE068 /* cusImagePickerController.h */,
+				126784071BA54377003FE068 /* cusImagePickerController.m */,
+				1267841A1BABF759003FE068 /* cameraViewController.h */,
+				1267841B1BABF759003FE068 /* cameraViewController.m */,
 				1249F3C31B58BE5A00B7C44C /* cusColView.h */,
 				1249F3C41B58BE5A00B7C44C /* cusColView.m */,
 				1249F3C61B58CB9F00B7C44C /* slideMenuView.h */,
 				1249F3C71B58CB9F00B7C44C /* slideMenuView.m */,
+				12663C3D1B9885D800E06FA0 /* slideTagView.h */,
+				12663C3E1B9885D800E06FA0 /* slideTagView.m */,
 				121EE0631B32952500EFC32C /* tenkeyViewController.h */,
 				121EE0641B32952500EFC32C /* tenkeyViewController.m */,
 				1249F3C01B58BE2600B7C44C /* keyboardViewController.h */,
@@ -302,10 +342,12 @@
 		1C814AFB1AB679B900EEE8C4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1267841D1BAC4A39003FE068 /* photoShutter2.caf */,
 				1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */,
 				1C814B411AB6B38A00EEE8C4 /* FontAwesome.ttf */,
 				1C814AFC1AB679B900EEE8C4 /* Info.plist */,
 				1C814AFD1AB679B900EEE8C4 /* main.m */,
+				126784151BA55310003FE068 /* face_tag.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -330,6 +372,7 @@
 		1C9F28AA1ACFB41800223863 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				122A814A1BD230760014C6DD /* CoreMotion.framework */,
 				12827F471B47A9D800BA97CE /* SystemConfiguration.framework */,
 				1C9F28BC1ACFD33100223863 /* libsqlite3.0.dylib */,
 				1C9F28AB1ACFB43D00223863 /* fmdb */,
@@ -436,17 +479,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1267841E1BAC4D43003FE068 /* photoShutter2.caf in Resources */,
 				1230131F1B95EF4C00BFA8C3 /* デンタルロゴ.png in Resources */,
 				1C814B421AB6B42400EEE8C4 /* FontAwesome.ttf in Resources */,
 				124242CF1B6358E800E64717 /* palette.png in Resources */,
+				1267840E1BA54569003FE068 /* F12.png in Resources */,
 				124317C51B53A7B500D1B37C /* viewer.png in Resources */,
+				126784141BA548DA003FE068 /* F12on.png in Resources */,
 				124317C41B53A7B500D1B37C /* make.png in Resources */,
 				1C814B071AB679B900EEE8C4 /* Main.storyboard in Resources */,
 				1C9F28BF1ACFD7E200223863 /* top.png in Resources */,
 				124317C11B53A7B500D1B37C /* compare.png in Resources */,
+				126784121BA548DA003FE068 /* F10on.png in Resources */,
 				12827F4E1B47BF9300BA97CE /* LaunchScreen.xib in Resources */,
+				1267840D1BA54569003FE068 /* F11.png in Resources */,
+				1267840C1BA54569003FE068 /* F10.png in Resources */,
 				1C814B091AB679B900EEE8C4 /* Images.xcassets in Resources */,
 				124317C21B53A7B500D1B37C /* export.png in Resources */,
+				126784161BA55310003FE068 /* face_tag.txt in Resources */,
+				126784131BA548DA003FE068 /* F11on.png in Resources */,
 				124317C31B53A7B500D1B37C /* import.png in Resources */,
 				124242D01B6358E800E64717 /* palette@2x.png in Resources */,
 			);
@@ -475,11 +526,13 @@
 				1247189B1B37C870007DFB44 /* faceTagViewController.m in Sources */,
 				1C814B341AB69B2E00EEE8C4 /* messageStr.m in Sources */,
 				1C9F28B71ACFB43D00223863 /* FMDatabase.m in Sources */,
+				1267841C1BABF759003FE068 /* cameraViewController.m in Sources */,
 				1C9F28BA1ACFB43D00223863 /* FMDatabaseQueue.m in Sources */,
 				12641F291B368F5A00B052E5 /* imageEditViewController.m in Sources */,
 				1247189E1B3A32C1007DFB44 /* memberViewController.m in Sources */,
 				1CE369F91AEA5B2600478850 /* getDataFromWeb.m in Sources */,
 				1C9F28BB1ACFB43D00223863 /* FMResultSet.m in Sources */,
+				126784081BA54377003FE068 /* cusImagePickerController.m in Sources */,
 				1C814B011AB679B900EEE8C4 /* AppDelegate.m in Sources */,
 				1C814AFE1AB679B900EEE8C4 /* main.m in Sources */,
 				1CE369F61AEA5B1500478850 /* UserDataCheck.m in Sources */,
@@ -503,6 +556,7 @@
 				1208E3C71B7ED6AD00DEB492 /* loginViewController.m in Sources */,
 				121D8ED91B29302F00992EC4 /* settingViewController.m in Sources */,
 				1C814B311AB69A5800EEE8C4 /* FileHelper.m in Sources */,
+				12663C3F1B9885D800E06FA0 /* slideTagView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

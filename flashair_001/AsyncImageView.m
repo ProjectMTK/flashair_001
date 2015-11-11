@@ -77,7 +77,7 @@
         _downloadChk = NO;
         // エラー時の処理
         if (self.delegate != nil) {
-            [self.delegate imageLoadError:self.tag];
+        //    [self.delegate imageLoadError:self.tag];
         }
     }
     else{
@@ -128,7 +128,7 @@
     
     //delegate
     if (self.delegate != nil && _downloadChk == YES) {
-        [self.delegate imageLoadComplete:self.tag];
+   //     [self.delegate imageLoadComplete:self.tag];
     }
 }
 
@@ -140,7 +140,7 @@
     
     //delegate
     if (self.delegate != nil) {
-        [self.delegate imageLoadError:self.tag];
+  //      [self.delegate imageLoadError:self.tag];
     }
 }
 

@@ -42,7 +42,7 @@
     LOGLOG;
     [super layoutSubviews];
     
-    NSLog(@"child imageview y = %f", self.frame.origin.y);
+  //  NSLog(@"child imageview y = %f", self.frame.origin.y);
     
     for (UIView *view in [self subviews]) {
         [view removeFromSuperview];
@@ -107,7 +107,7 @@
                 [[[photoData objectAtIndex:0] objectForKey:@"face_tag"] isEqualToString:@"2"] == YES ||
                 [[[photoData objectAtIndex:0] objectForKey:@"face_tag"] isEqualToString:@"8"] == YES
                 ) {
-                NSLog(@"逆ばー%@", [[photoData objectAtIndex:0] objectForKey:@"face_tag"]);
+             //   NSLog(@"逆ばー%@", [[photoData objectAtIndex:0] objectForKey:@"face_tag"]);
                 image =  [UIImage imageWithCGImage:img.CGImage scale:img.scale orientation:UIImageOrientationDownMirrored];
             }else{
                 image =  [UIImage imageWithCGImage:img.CGImage scale:img.scale orientation:UIImageOrientationUp];
@@ -162,7 +162,7 @@
 {
     LOGLOG;
     NSMutableArray* ary = [[NSMutableArray alloc]init];
-    [base_DataController selTBL:2 data:ary strWhere:@"WHERE stat = 1 ORDER BY id DESC"];
+    [base_DataController selTBL:2 data:ary strWhere:@"WHERE get_flg = 1 AND stat = 1 ORDER BY id DESC"];
     NSInteger nextID = 0;
     NSString* nextTitle = @"";
     //    NSInteger preID = 0;
@@ -195,7 +195,7 @@
 {
     LOGLOG;
     NSMutableArray* ary = [[NSMutableArray alloc]init];
-    [base_DataController selTBL:2 data:ary strWhere:@"WHERE stat = 1 ORDER BY id DESC"];
+    [base_DataController selTBL:2 data:ary strWhere:@"WHERE get_flg = 1 AND stat = 1 ORDER BY id DESC"];
     
     NSInteger preID = 0;
     NSString* preTitle = @"";

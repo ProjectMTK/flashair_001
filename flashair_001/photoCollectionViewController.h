@@ -7,13 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "slideTagView.h"
+#import "cusImagePickerController.h"
 
 @interface photoCollectionSectionView : UICollectionReusableView
 
 @property (nonatomic, readonly) UILabel *titleLabel;
 @end
 
-@interface photoCollectionViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface photoCollectionViewController : UIViewController<
+UICollectionViewDelegate,
+UICollectionViewDataSource,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate>
 {
     
     NSMutableArray* _glbData;
@@ -46,7 +52,16 @@
     BOOL _refreshSW;
     
     //ボタンエリア
-    UIView* _btnArea;
+    UIView* _btnAreaIm;
+    UIView* _btnAreaEx;
+    
+    //タグエリア
+    slideTagView* _tagAreaF;
+    
+    //カメラ
+    cusImagePickerController* _picker;
+    NSInteger _shutterSW;
+    NSInteger _setBustTopTag;
     
 }
 @property (assign) NSInteger mode;
@@ -65,7 +80,6 @@
 
 //URLスキーム(設定へ)
 - (void)confOut;
-- (void)confOpenD;
 - (void)selectMode;
 - (void)acAllUncheck;
 - (void)acAllCheck;
@@ -79,10 +93,15 @@
 - (void)imageOpen:(UIButton*)button;
 - (void)confOpen;
 - (void)confOpen:(UIButton*)button;
+- (void)confOpenD:(UITapGestureRecognizer*)sender;
 - (void)goSettingView;
 
 - (void)acSuccess:(NSInteger)num;
 - (void)acFalse:(NSInteger)num;
 
+- (void)reTake:(BOOL)saveSW;
+- (void)bustTag:(UIButton*)button;
+
 - (void)didSelectRowAtIndexPath:(NSIndexPath*)indexPath;
+- (void)fTag_upd:(NSInteger)targetTag;
 @end

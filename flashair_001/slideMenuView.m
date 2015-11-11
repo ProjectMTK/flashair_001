@@ -48,6 +48,7 @@
     [self addSubview:_tableView];
     
     
+    
     [super layoutSubviews];
 }
 
@@ -108,6 +109,35 @@
             img = [[UIImage alloc]initWithContentsOfFile:[[NSString alloc]initWithString:[[NSBundle mainBundle] pathForResource:@"make" ofType:@"png"]]];
             cell.backgroundColor = [UIColor colorWithRed:0.38 green:0.10 blue:0.53 alpha:1.0];
             break;
+        case SET_MODE_MEMRELOAD:
+            cell.textLabel.numberOfLines = 2;
+            cell.textLabel.font = FUTURA_FONT_P1;
+            cell.textLabel.text = @"患者データ\nDownload";
+            img = [common imageWithFAText:[FontAwesomeStr getICONStr:@"fa-users"]
+                                  setFont:FA_ICON_FONT_P10
+                                 rectSize:CGSizeMake(90, 70)
+                                 setColor:[UIColor whiteColor]];
+            cell.backgroundColor = UICOLOR_BLU_01;
+            
+            break;
+        case SET_MODE_TAG:
+            cell.textLabel.text = @"タグ設定";
+            img = [common imageWithFAText:[FontAwesomeStr getICONStr:@"fa-tags"]
+                                  setFont:FA_ICON_FONT_P10
+                                 rectSize:CGSizeMake(90, 70)
+                                 setColor:[UIColor whiteColor]];
+            cell.backgroundColor = UICOLOR_GRN_01;
+            
+            break;
+        case SET_MODE_CAMERA:
+            cell.textLabel.text = @"カメラ起動";
+            img = [common imageWithFAText:[FontAwesomeStr getICONStr:@"fa-camera"]
+                                  setFont:FA_ICON_FONT_P10
+                                 rectSize:CGSizeMake(90, 70)
+                                 setColor:[UIColor whiteColor]];
+            cell.backgroundColor = UICOLOR_GRN_02;
+            
+            break;
         case SET_MODE_SETTING:
             cell.textLabel.text = @"Setting";
             img = [common imageWithFAText:[FontAwesomeStr getICONStr:@"fa-cogs"]
@@ -155,7 +185,7 @@
 {
     return STAGE_BLOCK_ICONSIZE + (STAGE_BLOCK_PAD * 2);
 }
-
+/*
 //ヘッダーの高さ
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -182,7 +212,7 @@
 {
     //  LOGLOG;
     return nil;
-}
+}*/
 
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

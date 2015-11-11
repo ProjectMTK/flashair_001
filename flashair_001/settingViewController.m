@@ -533,6 +533,20 @@
             NSMutableArray* ary = [[NSMutableArray alloc]init];
             [base_DataController selTBL:1 data:ary strWhere:@""];
             if ([ary count] > 0) {
+                
+                NSMutableArray* ary12 = [[NSMutableArray alloc]init];
+                [base_DataController selTBL:12
+                                       data:ary12
+                                   strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[ary objectAtIndex:0] objectForKey:@"face_tag"]]];
+                
+                NSString* face_tag;
+                if ([ary12 count] > 0) {
+                    face_tag = [[ary12 objectAtIndex:0] objectForKey:@"label"];
+                }
+                else {
+                    face_tag = @"----";
+                }
+                /*
                 NSString* face_tag;
                 switch ([[[ary objectAtIndex:0] objectForKey:@"face_tag"]integerValue]) {
                     case 1:
@@ -566,7 +580,7 @@
                         face_tag = @"----";
                         break;
                 }
-                
+                */
                 
                 cell.textLabel.text = [NSString stringWithFormat:
                                        @"日付%@ 番号:%@ 名前:%@ タグ:%@",
@@ -575,6 +589,7 @@
                                        [[ary objectAtIndex:0] objectForKey:@"name"],
                                        face_tag
                                        ];
+                [ary12 release];
             }else {cell.textLabel.text = @"設定する";}
             cell.imageView.image = [common imageWithFAText:[FontAwesomeStr getICONStr:@"fa-user"]
                                                    setFont:FA_ICON_FONT_0

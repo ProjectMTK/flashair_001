@@ -215,7 +215,7 @@
 }
 - (void)btnTouch:(UIButton*)button
 {
-    NSNumber *numberValue = [[NSNumber alloc] initWithInt:((self.targetNumber * 10) + button.tag)];
+    NSNumber *numberValue = [[NSNumber alloc] initWithInt:((self.targetNumber * 10) + (long)button.tag)];
     //桁数を求める
     NSInteger digits = (int)log10([numberValue doubleValue]) + 1;
     

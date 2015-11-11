@@ -234,8 +234,8 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     LOGLOG;
-    NSLog(@"_nsData=%@", _nsData);
-    NSLog(@"strstr=%@", [[NSString alloc] initWithData:_nsData encoding:NSUTF8StringEncoding]);
+ //   NSLog(@"_nsData=%@", _nsData);
+  //  NSLog(@"strstr=%@", [[NSString alloc] initWithData:_nsData encoding:NSUTF8StringEncoding]);
     //JSONデータをパースしてNSDictionary型に入れ込む。
     self.json_data = [NSJSONSerialization JSONObjectWithData:_nsData options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"self.json_data=%@", self.json_data);

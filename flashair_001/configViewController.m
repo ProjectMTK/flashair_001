@@ -367,6 +367,20 @@
             break;
             
         case 3:
+            
+        {
+            NSMutableArray* ary12 = [[NSMutableArray alloc]init];
+            [base_DataController selTBL:12
+                                   data:ary12
+                               strWhere:[NSString stringWithFormat:@"WHERE id = %ld", (long)_faceTag]];
+            
+            if ([ary12 count] > 0) {
+                cell.textLabel.text = [[ary12 objectAtIndex:0] objectForKey:@"label"];
+            }
+            else {
+                cell.textLabel.text = @"----";
+            }
+            /*
             switch (_faceTag) {
                 case 1:
                     cell.textLabel.text = @"左上";
@@ -398,7 +412,10 @@
                 default:
                     cell.textLabel.text = @"----";
                     break;
-            }
+             }*/
+            [ary12 release];
+            
+        }
             //       cell.textLabel.text = [NSString stringWithFormat:@"%ld", (long)_faceTag];
             break;
             

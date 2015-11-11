@@ -69,6 +69,9 @@
         case 11:
             database = @"FLASHAIR_DATA";
             break;
+        case 12:
+            database = @"FACETAG_DATA";
+            break;
             
         default:
             database = @"PHOTO_DATA";
