@@ -129,6 +129,7 @@
     if ([[jsonData objectForKey:@"messageID"]integerValue] < 9000) {
         [self.delegate acSuccess:[[jsonData objectForKey:@"messageID"]integerValue]];
     }else{
+        NSLog(@"error = %@", jsonData);
         [self.delegate acFalse:[[jsonData objectForKey:@"messageID"]integerValue]];
 
     }

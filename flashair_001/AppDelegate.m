@@ -30,6 +30,14 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+  /*
+    NSString* strer = @"<3c627220 2f3e0a3c 623e4e6f 74696365 3c2f623e 3a202073 65737369 6f6e5f73 74617274 28293a20 70735f66 696c6573 5f636c65 616e7570 5f646972 3a206f70 656e6469 72282f76 61722f6c 69622f70 68703529 20666169 6c65643a 20506572 6d697373 696f6e20 64656e69 65642028 31332920 696e203c 623e2f76 61722f77 77772f63 6f72652f 6c696272 61726965 732f6765 6e657261 746f722f 6b65726e 656c2f6d 616e6167 65722f53 65737369 6f6e436c 6173732e 7068703c 2f623e20 6f6e206c 696e6520 3c623e31 30303c2f 623e3c62 72202f3e 0a7b226d 65737361 67654944 223a2234 3030227d>";
+    
+    NSData* data = [NSData alloc]
+    
+    NSLog(@"strstr=%@", [[NSString alloc] initWithData:_nsData encoding:NSUTF8StringEncoding]);
+*/
+    
     /*
     // --- NSLognの出力先をDocuments/log.txtに設定する ---
     // パス（Documents/log.txt）の文字列を作成する
