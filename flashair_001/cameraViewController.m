@@ -351,10 +351,10 @@
             else{
                 _yLabel.text = @"傾きNG";
             }
-            */
             NSLog(@"x: %0.3f", xac);
             NSLog(@"y: %0.3f", yac);
-            NSLog(@"z: %0.3f", zac);
+             NSLog(@"z: %0.3f", zac);
+             */
             
         };
         

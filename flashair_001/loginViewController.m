@@ -34,11 +34,13 @@
 }
 - (void)loadView
 {
+    LOGLOG;
     [super loadView];
 }
 
 
 - (void)viewDidLoad {
+    LOGLOG;
     [super viewDidLoad];
     
     _loginLabelView = [[UITextView alloc]init];
@@ -151,6 +153,7 @@
 
 - (void)reloadTblData
 {
+    LOGLOG;
     
     [base_DataController selTBL:10
                            data:_glbData
@@ -177,6 +180,7 @@
 }
 
 - (void)popView {
+    LOGLOG;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -336,6 +340,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    LOGLOG;
     // Return the number of sections.
     return 3;
 }

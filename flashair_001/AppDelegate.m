@@ -143,6 +143,7 @@
     
     //glbデータをチェックしてなければ追加
     if ([base_DataController selCnt:5 strWhere:@""] <= 0) {
+        NSLog(@"logincon open");
         loginViewController* loginCon = [[loginViewController alloc]init];
         loginCon.firstSW = YES;
         UINavigationController* navCon = [[UINavigationController alloc]initWithRootViewController:loginCon];
@@ -185,10 +186,10 @@
                                data:ary10
                            strWhere:@""];
         
+        NSInteger flashaircnt = [base_DataController selCnt:11 strWhere:[NSString stringWithFormat:@"WHERE ssid_label = '%@'", [common getSSID]]];
+        
         //flashairのSSIDに接続していない。
-        if (
-            ([base_DataController selCnt:11 strWhere:[NSString stringWithFormat:@"WHERE ssid_label = '%@'", [common getSSID]]] <= 0)
-            ){
+        if (flashaircnt <= 0){
             //接続していない場合は処理を止めておく。
             NSLog(@"loop stop");
             [NSThread sleepForTimeInterval:10.0f];
@@ -415,7 +416,11 @@
            [[val componentsSeparatedByString:@","] count] > 0){
             
             //ファイル
-            if ([[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"32"] == YES &&
+            if (
+                (
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"32"] == YES ||
+                 [[[val componentsSeparatedByString:@","] objectAtIndex:3] isEqualToString:@"0"] == YES
+                ) &&
                 (
                  [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".jpg"].location != NSNotFound ||
                  [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".JPG"].location != NSNotFound ||

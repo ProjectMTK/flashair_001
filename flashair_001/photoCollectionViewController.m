@@ -552,6 +552,7 @@ static NSString * const headerID = @"header";
 //画面が隠れたとき
 - (void)viewWillDisappear:(BOOL)animated
 {
+    LOGLOG;
     
 }
 //画面が再表示したとき
@@ -593,6 +594,7 @@ static NSString * const headerID = @"header";
     [self reloadTblData];*/
 }
 - (void)popView {
+    LOGLOG;
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)confOut
@@ -602,6 +604,7 @@ static NSString * const headerID = @"header";
 }
 - (void)slideAction:(UIButton*)button
 {
+    LOGLOG;
     if (button.tag == 1) {
         [self slideOpen];
     }
@@ -764,6 +767,7 @@ static NSString * const headerID = @"header";
 
 - (void)reloadPrTblData
 {
+    LOGLOG;
     if (_selectSW == NO && self.navigationItem.leftBarButtonItem.tag == 1) {
         [self reloadTblData];
     }
@@ -777,7 +781,7 @@ static NSString * const headerID = @"header";
     _photoData = [[NSMutableArray alloc]init];
     [base_DataController selTBL:2
                            data:_photoData
-                       strWhere:@"WHERE stat = 1 AND get_flg = 1 ORDER BY cre_date DESC"];
+                       strWhere:@"WHERE stat = 1 AND get_flg = 1 GROUP BY (card_ssid || '_' || file_name) ORDER BY cre_date DESC"];
     
     //   [_tableView reloadData];
     
@@ -930,7 +934,7 @@ static NSString * const headerID = @"header";
     }
     [_tagAreaF setNeedsLayout];
     
-    
+    _selectSW= YES;
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = _unChkBtn;
     [self.navigationItem.rightBarButtonItem setEnabled:YES];
@@ -953,6 +957,7 @@ static NSString * const headerID = @"header";
     [self.navigationItem.rightBarButtonItem setEnabled:YES];
     _tagAreaF.targetID = 0;
     [_tagAreaF setNeedsLayout];
+    _selectSW = NO;
     //    [self reloadTblData];
     [self btnAreaIm_Open];
 }

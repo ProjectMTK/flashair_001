@@ -456,7 +456,7 @@
     }
     else if (indexPath.section == 2){
         keyboardViewController* keyboardView = [[keyboardViewController alloc]init];
-        keyboardView.title = @"患者名(アルファベット　性 名の順で)";
+        keyboardView.title = @"患者名(アルファベット　姓 名の順で)";
         keyboardView.targetName = _nameLabel;
         keyboardView.delegate = self;
         UINavigationController* navCon = [[UINavigationController alloc]initWithRootViewController:keyboardView];
