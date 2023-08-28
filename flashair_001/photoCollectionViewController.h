@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "slideTagView.h"
 #import "cusImagePickerController.h"
+#import  <CoreLocation/CoreLocation.h>
 
 @interface photoCollectionSectionView : UICollectionReusableView
 
@@ -19,7 +20,8 @@
 UICollectionViewDelegate,
 UICollectionViewDataSource,
 UINavigationControllerDelegate,
-UIImagePickerControllerDelegate>
+UIImagePickerControllerDelegate,
+CLLocationManagerDelegate>
 {
     
     NSMutableArray* _glbData;
@@ -31,6 +33,7 @@ UIImagePickerControllerDelegate>
     UIBarButtonItem* _unChkBtn;
     UIBarButtonItem* _unChkBtn2;
     UIBarButtonItem* _acBtn;
+    
     
     
     BOOL _chkedUpSW;
@@ -68,6 +71,7 @@ UIImagePickerControllerDelegate>
 @property (retain, nonatomic) UICollectionViewFlowLayout *flowLayout;
 @property (retain, nonatomic) UICollectionView *collectionView;
 @property (assign) BOOL refreshSW;
+@property (retain, nonatomic) CLLocationManager *locationManager;
 
 - (void)popView;
 - (void)slideAction:(UIButton*)button;

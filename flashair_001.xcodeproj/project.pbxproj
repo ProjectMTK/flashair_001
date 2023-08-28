@@ -12,6 +12,8 @@
 		121EE0651B32952500EFC32C /* tenkeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 121EE0641B32952500EFC32C /* tenkeyViewController.m */; };
 		122A814B1BD230760014C6DD /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122A814A1BD230760014C6DD /* CoreMotion.framework */; };
 		1230131F1B95EF4C00BFA8C3 /* デンタルロゴ.png in Resources */ = {isa = PBXBuildFile; fileRef = 1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */; };
+		1241AD04239016D200CFA441 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1241AD03239016D200CFA441 /* ExternalAccessory.framework */; };
+		1241AD052390174500CFA441 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127770392390072D0076289C /* CoreLocation.framework */; };
 		124242C61B608A7A00E64717 /* compareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 124242C51B608A7A00E64717 /* compareViewController.m */; };
 		124242C91B60AE3000E64717 /* CanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 124242C81B60AE3000E64717 /* CanvasView.m */; };
 		124242CF1B6358E800E64717 /* palette.png in Resources */ = {isa = PBXBuildFile; fileRef = 124242CD1B6358E800E64717 /* palette.png */; };
@@ -44,6 +46,7 @@
 		12827F481B47A9D800BA97CE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12827F471B47A9D800BA97CE /* SystemConfiguration.framework */; };
 		12827F4E1B47BF9300BA97CE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12827F4D1B47BF9300BA97CE /* LaunchScreen.xib */; };
 		12A6038E1B2572EF008FE57D /* topCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12A6038D1B2572EF008FE57D /* topCollectionViewController.m */; };
+		12E0B4A8221AE81600898810 /* DeployGateSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12E0B4A7221AE81600898810 /* DeployGateSDK.framework */; };
 		12F740611B27FC2000D105F1 /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12F740601B27FC2000D105F1 /* mainViewController.m */; };
 		1C2337781AD10655004C8FAF /* topViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C2337771AD10655004C8FAF /* topViewCell.m */; };
 		1C23377E1AD255A7004C8FAF /* imageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C23377D1AD255A7004C8FAF /* imageViewController.m */; };
@@ -93,6 +96,7 @@
 		121EE0641B32952500EFC32C /* tenkeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tenkeyViewController.m; sourceTree = "<group>"; };
 		122A814A1BD230760014C6DD /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		1230131E1B95EF4C00BFA8C3 /* デンタルロゴ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "デンタルロゴ.png"; sourceTree = "<group>"; };
+		1241AD03239016D200CFA441 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		124242C41B608A7A00E64717 /* compareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compareViewController.h; sourceTree = "<group>"; };
 		124242C51B608A7A00E64717 /* compareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = compareViewController.m; sourceTree = "<group>"; };
 		124242C71B60AE3000E64717 /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
@@ -136,10 +140,14 @@
 		1267841A1BABF759003FE068 /* cameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cameraViewController.h; sourceTree = "<group>"; };
 		1267841B1BABF759003FE068 /* cameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cameraViewController.m; sourceTree = "<group>"; };
 		1267841D1BAC4A39003FE068 /* photoShutter2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = photoShutter2.caf; sourceTree = "<group>"; };
+		1268CE51217D9BF200C5C95B /* flashair_001.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = flashair_001.entitlements; sourceTree = "<group>"; };
+		127770392390072D0076289C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		12827F471B47A9D800BA97CE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		12827F4D1B47BF9300BA97CE /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		12A6038C1B2572EF008FE57D /* topCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = topCollectionViewController.h; sourceTree = "<group>"; };
 		12A6038D1B2572EF008FE57D /* topCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = topCollectionViewController.m; sourceTree = "<group>"; };
+		12E0B4A1221AE04C00898810 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		12E0B4A7221AE81600898810 /* DeployGateSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeployGateSDK.framework; path = DeployGateSDK1.0.7.embeddedframework/DeployGateSDK.framework; sourceTree = "<group>"; };
 		12F7405F1B27FC2000D105F1 /* mainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainViewController.h; sourceTree = "<group>"; };
 		12F740601B27FC2000D105F1 /* mainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainViewController.m; sourceTree = "<group>"; };
 		1C2337761AD10655004C8FAF /* topViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = topViewCell.h; sourceTree = "<group>"; };
@@ -202,6 +210,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1241AD052390174500CFA441 /* CoreLocation.framework in Frameworks */,
+				12E0B4A8221AE81600898810 /* DeployGateSDK.framework in Frameworks */,
+				1241AD04239016D200CFA441 /* ExternalAccessory.framework in Frameworks */,
 				122A814B1BD230760014C6DD /* CoreMotion.framework in Frameworks */,
 				12827F481B47A9D800BA97CE /* SystemConfiguration.framework in Frameworks */,
 				1C9F28BD1ACFD33100223863 /* libsqlite3.0.dylib in Frameworks */,
@@ -261,6 +272,7 @@
 		1C814AFA1AB679B900EEE8C4 /* flashair_001 */ = {
 			isa = PBXGroup;
 			children = (
+				1268CE51217D9BF200C5C95B /* flashair_001.entitlements */,
 				1C814AFF1AB679B900EEE8C4 /* AppDelegate.h */,
 				1C814B001AB679B900EEE8C4 /* AppDelegate.m */,
 				1249F3BA1B576CA000B7C44C /* photoCollectionViewController.h */,
@@ -335,6 +347,7 @@
 				12641F281B368F5A00B052E5 /* imageEditViewController.m */,
 				1208E3C51B7ED6AD00DEB492 /* loginViewController.h */,
 				1208E3C61B7ED6AD00DEB492 /* loginViewController.m */,
+				12E0B4A1221AE04C00898810 /* PrefixHeader.pch */,
 			);
 			path = flashair_001;
 			sourceTree = "<group>";
@@ -372,6 +385,9 @@
 		1C9F28AA1ACFB41800223863 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1241AD03239016D200CFA441 /* ExternalAccessory.framework */,
+				127770392390072D0076289C /* CoreLocation.framework */,
+				12E0B4A7221AE81600898810 /* DeployGateSDK.framework */,
 				122A814A1BD230760014C6DD /* CoreMotion.framework */,
 				12827F471B47A9D800BA97CE /* SystemConfiguration.framework */,
 				1C9F28BC1ACFD33100223863 /* libsqlite3.0.dylib */,
@@ -448,6 +464,11 @@
 					1C814AF71AB679B900EEE8C4 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 6Z8GQTA785;
+						SystemCapabilities = {
+							com.apple.AccessWiFi = {
+								enabled = 1;
+							};
+						};
 					};
 					1C814B101AB679B900EEE8C4 = {
 						CreatedOnToolsVersion = 6.2;
@@ -460,6 +481,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -624,7 +646,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -660,7 +682,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -673,10 +695,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = flashair_001/flashair_001.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6Z8GQTA785;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DeployGateSDK1.0.7.embeddedframework",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = flashair_001/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -689,10 +719,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = flashair_001/flashair_001.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6Z8GQTA785;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DeployGateSDK1.0.7.embeddedframework",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = flashair_001/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

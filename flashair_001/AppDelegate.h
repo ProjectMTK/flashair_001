@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
     BOOL _updChkFlg;
@@ -15,6 +16,7 @@
 }
 
 @property (strong, nonatomic) UIWindow *window;
+@property (assign) CLLocationManager *locationManager;
 
 - (void)newFileChk;
 - (void)getList:(NSString*)path;

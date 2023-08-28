@@ -15,6 +15,7 @@
 
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @implementation common
 
@@ -270,7 +271,6 @@
     
     return image;
 }
-
 //IPv4を返す
 + (NSString*)getIPv4
 {
@@ -281,6 +281,7 @@
         const struct ifaddrs* p;
         NSString* ipV4Str = @"";
         
+        NSInteger n = 0;
         // ネットワークインターフェイスの数だけ処理を繰り返します。最後の情報の ifa_next には NULL が入ります。
         for (p = interfaces; p != NULL; p = p->ifa_next) {
             // ここで、個々のインターフェイス情報を取得します。
@@ -292,9 +293,13 @@
                 char addrstr[INET_ADDRSTRLEN];
                 struct sockaddr_in* addr = (struct sockaddr_in*)p->ifa_addr;
                 inet_ntop(AF_INET, &addr->sin_addr, addrstr, sizeof(addrstr));
-      //          NSLog(@"IP Address: %s", addrstr);
+                NSLog(@"IP Address: %s", p);
+                NSLog(@"IP Address: %s", addrstr);
                 ipV4Str = [NSString stringWithFormat:@"%s", addrstr];
+                if(n == 1) break;
+                n++;
             }
+            
             /*
             // ネットマスクについても同様に取得できます。
             if (p->ifa_netmask != NULL && p->ifa_netmask->sa_family == AF_INET){
@@ -324,18 +329,21 @@
 + (NSString*)getSSID
 {
     NSString *wifiName = @"0";
+    
     CFArrayRef myArray = CNCopySupportedInterfaces();
+  //  NSLog(@"これやでAA%@", CNCopyCurrentNetworkInfo(CFArrayGetValueAtIndex(myArray, 0)));
     if (myArray != nil) {
         CFDictionaryRef myDict = CNCopyCurrentNetworkInfo(CFArrayGetValueAtIndex(myArray, 0));
+    //    NSLog(@"これやでmyDict%@", myDict);
         if (myDict != nil) {
             NSDictionary *dict = (NSDictionary*)CFBridgingRelease(myDict);
             
             wifiName = [dict valueForKey:@"SSID"];
         }
     }
+   //  NSLog(@"これやでwifiName%@", wifiName);
     return wifiName;
 }
-
 @end
 
 

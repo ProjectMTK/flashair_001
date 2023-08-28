@@ -58,8 +58,10 @@ static NSString * const headerID = @"header";
 @synthesize refreshSW = _refreshSW;
 
 
+
 - (void)dealloc
 {
+    LOGLOG;
     self.flowLayout = nil;
     self.collectionView = nil;
     [_chkBtn release];
@@ -80,6 +82,7 @@ static NSString * const headerID = @"header";
     LOGLOG;
     [super viewDidLoad];
     
+ //   NSLog(@"locationManager=%@", self.locationManager);
     self.view.backgroundColor = UICOLOR_GRAY_7GOGO;
     _refreshSW = YES;
 
@@ -96,8 +99,19 @@ static NSString * const headerID = @"header";
     }
     [ary release];
     
-    
-    
+    if(nil == self.locationManager){
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        [self.locationManager startUpdatingLocation];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+            // NSLocationWhenInUseUsageDescriptionに設定したメッセージでユーザに確認
+            [self.locationManager requestWhenInUseAuthorization];
+            // NSLocationAlwaysUsageDescriptionに設定したメッセージでユーザに確認
+            //[locationManager requestAlwaysAuthorization];
+            
+        }
+        
+    }
     //   self.mode = 0;
     _upCnt = 0;
     _getCnt = 0;
@@ -542,7 +556,7 @@ static NSString * const headerID = @"header";
      //close
      [[[[_picker.view subviews] objectAtIndex:3] subviews] objectAtIndex:4]
 
-     */
+     */NSLog(@"PhotoCollection!!!!!!");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -777,6 +791,10 @@ static NSString * const headerID = @"header";
 - (void)reloadTblData
 {
     LOGLOG;
+    if([_selectedData count] > 0){
+    //    NSLog(@"_selectedData消す");
+        [_selectedData removeAllObjects];
+    }
   //  [_selectedData removeAllObjects];
     _photoData = [[NSMutableArray alloc]init];
     [base_DataController selTBL:2
@@ -794,11 +812,13 @@ static NSString * const headerID = @"header";
 
 - (void)selectMode
 {
+    LOGLOG;
     //モード変更時は選択状態を解除
     for (NSInteger row = 0; row < [self.collectionView numberOfItemsInSection:0]; row++) {
         [self.collectionView deselectItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0] animated:NO];
     }
     //選択状態を解除するので、選択したデータも削除
+//    NSLog(@"_selectedData 消す");
     [_selectedData removeAllObjects];
     
     //選択モード->通常モードへ
@@ -901,7 +921,9 @@ static NSString * const headerID = @"header";
 //すべてチェックする
 - (void)acAllCheck
 {
+    LOGLOG;
     // ボタンが押された時の処理
+//    NSLog(@"_selectedData 消す");
     //選択状態を一旦解除するので、選択したデータも削除
     [_selectedData removeAllObjects];
     
@@ -945,10 +967,12 @@ static NSString * const headerID = @"header";
 //すべてチェックを外す
 - (void)acAllUncheck
 {
+    LOGLOG;
     for (NSInteger row = 0; row < [self.collectionView numberOfItemsInSection:0]; row++) {
         NSLog(@"row2=%ld", (long)row);
         [self.collectionView deselectItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0] animated:NO];
     }
+//    NSLog(@"_selectedData 消す");
     //選択状態を解除するので、選択したデータも削除
     [_selectedData removeAllObjects];
     
@@ -1126,7 +1150,7 @@ static NSString * const headerID = @"header";
 - (void)upload
 {
     LOGLOG;
-    
+ //   NSLog(@"_selectedData=%@", _selectedData);
     //選択したIDに含まれるかどうかチェック
     //通常処理
     if (
@@ -1210,7 +1234,7 @@ static NSString * const headerID = @"header";
         NSIndexPath* indexPath = [NSIndexPath indexPathForRow:_upCnt inSection:0];
         
         [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-        [self reloadTblData];
+    //    [self reloadTblData];
         [self upload];
     }
     else{
@@ -1269,6 +1293,7 @@ static NSString * const headerID = @"header";
             //SSIDは登録されているが、現在のSSIDと違う>>confOut
             else if ([base_DataController selCnt:11 strWhere:[NSString stringWithFormat:@"WHERE ssid_label = '%@'", [common getSSID]]] <= 0){
                 headerTitle = @"機器のWifiが登録されたカメラSSIDと違います";
+                NSLog(@"[common getSSID] = %@", [common getSSID]);
                 headerView.backgroundColor = [UIColor redColor];
             }
             else {
@@ -1498,7 +1523,7 @@ static NSString * const headerID = @"header";
          ([common fileExistsAtPath:thumbPath] == YES && [[NSData dataWithContentsOfFile:thumbPath] length] <= 10) ||
          [common fileExistsAtPath:thumbPath] == NO
          ) {
-        NSLog(@"nai node upd");
+   //     NSLog(@"nai node upd");
         //データが0なので、flgを0に
         NSMutableDictionary* upDic = [[NSMutableDictionary alloc]init];
         [upDic setObject:@"0" forKey:@"get_flg"];
@@ -1693,6 +1718,7 @@ static NSString * const headerID = @"header";
     if ([[_selectedData allKeys] containsObject:[[_photoData objectAtIndex:indexPath.row] objectForKey:@"id"]] == YES) {
         // 存在する場合の処理
         //消す
+    //    NSLog(@"_selectedData 一部消す");
         [_selectedData removeObjectForKey:[[_photoData objectAtIndex:indexPath.row] objectForKey:@"id"]];
     }
     [self rightBarButtonItemChg];

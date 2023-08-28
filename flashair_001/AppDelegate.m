@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <DeployGateSDK/DeployGateSDK.h>
 //#import "homeViewController.h"
 //#import "topViewController.h"
 //#import "topCollectionViewController.h"
@@ -17,7 +18,6 @@
 #import "Define_list.h"
 #import "base_DataController.h"
 
-
 @interface AppDelegate ()
 
 @end
@@ -26,6 +26,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [[DeployGateSDK sharedInstance] launchApplicationWithAuthor:@"rankan_style" key:@"1ba4eb813c7ff402a410d56b47e9d61dbe814add"];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -264,6 +265,7 @@
                             )
                             )
                         {
+                            NSLog(@"[2]DL開始");
                             //   NSLog(@"[3]DL!!!=%@",  [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
                             UIImage* aImaged = [[UIImage alloc] initWithData:data];
                             // 取得した画像の縦サイズ、横サイズを取得する
@@ -312,6 +314,7 @@
                                                   strWhere:[NSString stringWithFormat:@"WHERE id = %@", [[pData objectAtIndex:i] objectForKey:@"id"]]];
                             [dic release];
                             [self performSelectorOnMainThread:@selector(tableReload) withObject:nil waitUntilDone:YES];
+                            NSLog(@"[2]DL終了");
                         }
                         else {
                             NSLog(@"画像じゃない");
@@ -349,6 +352,10 @@
             
             else if([sts intValue] == 1){
                 _updChkFlg = YES;
+            }else{
+                cnt++;
+           //     NSLog(@"sts=%@", sts);
+             //   NSLog(@"sts=%d", cnt);
             }
         }
         
@@ -414,7 +421,6 @@
     for (NSString* val in [dirStr componentsSeparatedByString:@"\n"]) {
         if([val rangeOfString:@","].location != NSNotFound &&
            [[val componentsSeparatedByString:@","] count] > 0){
-            
             //ファイル
             if (
                 (
@@ -427,7 +433,6 @@
                  [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".jpeg"].location != NSNotFound ||
                  [[[val componentsSeparatedByString:@","] objectAtIndex:1] rangeOfString:@".JPEG"].location != NSNotFound
                  )) {
-                    
                     //存在チェック用
                     //リストのデータが既に存在しているものであれば、ループを次へ進める。
                     if (
@@ -437,8 +442,6 @@
                         }else{
                             //     NSLog(@"なし:%@", [[val componentsSeparatedByString:@","] objectAtIndex:1]);
                         }
-                    
-                    
                     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
                     [dic setObject:[NSString stringWithFormat:@"%ld",(long)(i + 1)] forKey:@"id"];
                     [dic setObject:@"1" forKey:@"stat"];
@@ -553,7 +556,7 @@
         if ([base_DataController selCnt:11 strWhere:[NSString stringWithFormat:@"WHERE ssid_label = '%@'", [common getSSID]]] <= 0 || _listChkFlg == YES){
             //延々と続ける
             [NSThread sleepForTimeInterval:0.1f];
-            
+    
         }
         else{
             // Run cgi
@@ -583,7 +586,8 @@
 
                 }
                 //updateは確認できなかったが、画像が0で10回以上処理が繰り返されてる場合は、一度チェックしてみる。
-                else if (([sts intValue] == 0 && [base_DataController selCnt:2 strWhere:@""] <= 0 && _listChkFlg == NO) || cnt >= 100){
+          //      else if (([sts intValue] == 0 && [base_DataController selCnt:2 strWhere:@""] <= 0 && _listChkFlg == NO) || cnt >= 100){
+                else if ([sts intValue] == 0 && cnt >= 100){
                     cnt = 0;
                     if ([ary count] > 0) {
                         path = [[ary objectAtIndex:0] objectForKey:@"sdcard_dir"];

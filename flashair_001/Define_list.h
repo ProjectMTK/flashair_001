@@ -7,7 +7,8 @@
 //
 
 #define LOGLOG NSLog(@"%s", __func__)
-#define DBLOGLOG /*NSLog(@"%s", __func__)*/
+#define NSLOG DGSLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define DBLOGLOG NSLog(@"%s", __func__)
 
 #if (TARGET_IPHONE_SIMULATOR)
     #define BASE_URL @"http://project-mtk.com/dental_cv/"

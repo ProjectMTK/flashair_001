@@ -167,6 +167,7 @@
     //接続時のIP
     _ipNo = 0;
     _ipPreStr = [[NSMutableString alloc]init];
+
     NSArray* ary = [[common getIPv4] componentsSeparatedByString:@"."];
     if ([ary count] > 3) {
         [ary objectAtIndex:3];
@@ -1146,7 +1147,7 @@ numberOfRowsInComponent:(NSInteger)component
                                               timeoutInterval:0.3];
         NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:&res error:&error];
         [req release];
-        
+        NSLog(@"data = %@", data);
         if (data && !error) {
             NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             //     NSLog(@"str = %@", str);

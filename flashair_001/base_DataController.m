@@ -245,6 +245,7 @@
     NSInteger sumData = 0;
     while([results next])
     {
+ //   NSLog(@"%@", [results intForColumn:@"CNT"]);
         sumData += [results intForColumn:@"CNT"];
     }
     [db close];
